@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ACMS</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="app_name_zh">考勤管理系统</string>
+    <string name="default_title">默认标题</string>
+
+</resources>
