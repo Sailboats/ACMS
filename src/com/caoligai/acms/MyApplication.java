@@ -73,7 +73,7 @@ public class MyApplication extends Application {
 
 	public UserUtils getmUserUtils() {
 		if (null == mUserUtils) {
-			mUserUtils = new UserUtils();
+			mUserUtils = new UserUtils(getApplicationContext());
 		}
 		return mUserUtils;
 	}

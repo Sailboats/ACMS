@@ -51,6 +51,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void initData() {
 		mApp = (MyApplication) getApplication();
+		initNameAndPassword();
 	}
 
 	@Override
@@ -67,13 +68,19 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		switch (v.getId()) {
 
 		case R.id.yitong_btn_login:
-			String tel = mEdtTelphone.getText().toString().trim();
+			String name = mEdtTelphone.getText().toString().trim();
 			String password = mEdtPwd.getText().toString().trim();
 
 			// TODO 输入合法性检查
-			mApp.getmUserUtils().login(tel, password);
-//			startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-//			finish();
+			if (!name.equals("") || !password.equals("")) {
+				mApp.getmUserUtils().login(LoginActivity.this, name, password);
+			} else {
+				showToast("你输入的账号或者密码不合法，请重新输入");
+			}
+
+			// startActivity(new Intent(LoginActivity.this,
+			// HomeActivity.class));
+			// finish();
 			break;
 
 		case R.id.yitong_tv_forgetpwd:
@@ -95,6 +102,17 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			// this.startActivity(intent);
 			break;
 
+		}
+	}
+
+	/**
+	 * 显示已经记住的账号和密码
+	 */
+	private void initNameAndPassword() {
+		String[] value = mApp.getmUserUtils().getLocalNameAndPassword();
+		if (!value[0].equals("") && !value[1].equals("")) {
+			mEdtTelphone.setText(value[0]);
+			mEdtPwd.setText(value[1]);
 		}
 	}
 

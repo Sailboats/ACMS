@@ -52,7 +52,7 @@ public class WelcomeActivity extends BaseActivity {
 	Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 
-			if (app.getmUserUtils().hasCurrentUser()) {
+			if (app.getmUserUtils().hasRememberUser()) {
 				// 存在当前用户
 				LogUtils.Log_debug(tag, "存在当前用户");
 				startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));

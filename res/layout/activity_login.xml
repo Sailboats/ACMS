@@ -24,7 +24,7 @@
     <EditText
         android:id="@+id/yitong_edt_telphone"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
@@ -35,7 +35,7 @@
     <EditText
         android:id="@+id/yitong_edt_pwd"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
@@ -85,7 +85,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
-        android:background="#aaa" />
+        android:background="#aaa"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/yitong_brand_distributor"
@@ -97,12 +98,14 @@
         android:gravity="center"
         android:text="品牌商经销商首次登录入口"
         android:textColor="@color/font_normal"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="5dp"
-        android:background="#aaa" />
+        android:background="#aaa"
+        android:visibility="gone" />
 
 </LinearLayout>

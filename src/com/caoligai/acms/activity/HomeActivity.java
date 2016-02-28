@@ -24,7 +24,7 @@ public class HomeActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 		// TODO Auto-generated method stub
-
+		setIsTopActivity(false);
 	}
 
 	@Override
