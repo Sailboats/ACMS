@@ -1,13 +1,9 @@
-/**
- * 
- */
 package com.caoligai.acms;
-
-import com.caoligai.acms.R;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -18,7 +14,7 @@ import android.widget.Toast;
  * @date 2016年2月23日 下午11:08:59
  * 
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

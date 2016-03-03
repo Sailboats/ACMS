@@ -5,6 +5,9 @@
     <color name="bg_white">#FFFFFF</color>
     <color name="bg_normol">#FEFFE9</color>
 
+    <!-- 边界 -->
+    <color name="border">#eeeeee</color>
+
     <!-- 字体 -->
     <color name="font_normal">#999999</color>
     <color name="font_black">#000000</color>
