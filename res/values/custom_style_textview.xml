@@ -11,13 +11,13 @@
     </style>
 
     <style name="normal_text.text_1">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">32px</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
     </style>
 
     <style name="normal_text.text_2">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">26px</item>
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/font_black</item>

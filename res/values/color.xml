@@ -12,5 +12,7 @@
     <color name="font_normal">#999999</color>
     <color name="font_black">#000000</color>
     <color name="border_title">#F6F7F8</color>
+    <color name="font_date">#471F1F</color>
+    <color name="font_white">#ffffff</color>
 
 </resources>

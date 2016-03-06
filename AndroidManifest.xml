@@ -29,8 +29,11 @@
         <!-- 主页面 -->
         <activity android:name="com.caoligai.acms.activity.HomeActivity" >
         </activity>
+        <!-- 登录页面 -->
         <activity android:name="com.caoligai.acms.activity.LoginActivity" >
         </activity>
+        <!-- 索引列表页面（通用） -->
+        <activity android:name="com.caoligai.acms.activity.IndexListViewActivity" />
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service android:name="com.avos.avoscloud.PushService" />
