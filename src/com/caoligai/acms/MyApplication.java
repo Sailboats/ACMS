@@ -9,6 +9,7 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
+import com.caoligai.acms.avobject.Course;
 import com.caoligai.acms.utils.LogUtils;
 import com.caoligai.acms.utils.UserUtils;
 
@@ -45,6 +46,10 @@ public class MyApplication extends Application {
 	 * 初始化 LeanCloud
 	 */
 	private void initLeanCloud() {
+
+		// 初始化 AVObject 子类
+		AVObject.registerSubclass(Course.class);
+
 		// 初始化参数依次为 this, AppId, AppKey
 		AVOSCloud.initialize(this, "xFY1tb9f2039kf2VucpsRDva-gzGzoHsz", "f428q4rbkKRUsrhXHtXghQw6");
 

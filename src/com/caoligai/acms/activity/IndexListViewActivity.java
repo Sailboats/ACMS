@@ -1,5 +1,6 @@
 package com.caoligai.acms.activity;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,10 +9,14 @@ import java.util.TreeSet;
 
 import com.caoligai.acms.R;
 import com.caoligai.acms.adapter.ListViewAdapter;
+import com.caoligai.acms.avobject.Course;
+import com.caoligai.acms.dao.CourseDao;
 import com.caoligai.acms.entity.Person;
 import com.caoligai.acms.utils.StringHelper;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.MotionEvent;
@@ -36,32 +41,43 @@ public class IndexListViewActivity extends Activity {
 	private int height;// 字体高度
 	private boolean flag = false;
 
+	private List<Course> courses;
+	private List<Course> newCourse = new ArrayList<Course>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// 去标题栏
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_index_listview);
 		layoutIndex = (LinearLayout) this.findViewById(R.id.layout);
-		layoutIndex.setBackgroundColor(Color.parseColor("#00ffffff"));
+		// layoutIndex.setBackgroundColor(Color.parseColor("#00ffffff"));
 		listView = (ListView) findViewById(R.id.listView);
 		tv_show = (TextView) findViewById(R.id.tv);
 		tv_show.setVisibility(View.GONE);
-		setData();
-		String[] allNames = sortIndex(persons);
-		sortList(allNames);
 
-		selector = new HashMap<String, Integer>();
-		for (int j = 0; j < indexStr.length; j++) {// 循环字母表，找出newPersons中对应字母的位置
-			for (int i = 0; i < newPersons.size(); i++) {
-				if (newPersons.get(i).getName().equals(indexStr[j])) {
-					selector.put(indexStr[j], i);
-				}
+		new Thread(new Runnable() {
+			public void run() {
+				courses = CourseDao.getAllCourse();
+
+				Message message = myHandler.obtainMessage();
+				message.obj = courses;
+				myHandler.sendMessage(message);
 			}
-
-		}
-		adapter = new ListViewAdapter(this, newPersons);
-		listView.setAdapter(adapter);
+		}).start();
+		/*
+		 * setData(); String[] allNames = sortIndex(persons);
+		 * sortList(allNames);
+		 * 
+		 * selector = new HashMap<String, Integer>(); for (int j = 0; j <
+		 * indexStr.length; j++) {// 循环字母表，找出newPersons中对应字母的位置 for (int i = 0;
+		 * i < newPersons.size(); i++) { if
+		 * (newPersons.get(i).getName().equals(indexStr[j])) {
+		 * selector.put(indexStr[j], i); } }
+		 * 
+		 * } adapter = new ListViewAdapter(this, newPersons);
+		 * listView.setAdapter(adapter);
+		 */
 	}
 
 	/**
@@ -72,14 +88,15 @@ public class IndexListViewActivity extends Activity {
 	private void sortList(String[] allNames) {
 		for (int i = 0; i < allNames.length; i++) {
 			if (allNames[i].length() != 1) {
-				for (int j = 0; j < persons.size(); j++) {
-					if (allNames[i].equals(persons.get(j).getPinYinName())) {
-						Person p = new Person(persons.get(j).getName(), persons.get(j).getPinYinName());
-						newPersons.add(p);
+				for (int j = 0; j < courses.size(); j++) {
+					if (allNames[i].equals(StringHelper.getPingYin(courses.get(j).getName().toString()))) {
+						// Person p = new Person(persons.get(j).getName(),
+						// persons.get(j).getPinYinName());
+						newCourse.add(courses.get(j));
 					}
 				}
 			} else {
-				newPersons.add(new Person(allNames[i]));
+				newCourse.add(new Course(allNames[i]));
 			}
 		}
 	}
@@ -100,23 +117,23 @@ public class IndexListViewActivity extends Activity {
 	 * @param persons
 	 * @return
 	 */
-	public String[] sortIndex(List<Person> persons) {
+	public String[] sortIndex(List<Course> courses) {
 		TreeSet<String> set = new TreeSet<String>();
 		// 获取初始化数据源中的首字母，添加到set中
-		for (Person person : persons) {
-			set.add(StringHelper.getPinYinHeadChar(person.getName()).substring(0, 1));
+		for (Course course : courses) {
+			set.add(StringHelper.getPinYinHeadChar(course.getName()).substring(0, 1));
 		}
 		// 新数组的长度为原数据加上set的大小
-		String[] names = new String[persons.size() + set.size()];
+		String[] names = new String[courses.size() + set.size()];
 		int i = 0;
 		for (String string : set) {
 			names[i] = string;
 			i++;
 		}
-		String[] pinYinNames = new String[persons.size()];
-		for (int j = 0; j < persons.size(); j++) {
-			persons.get(j).setPinYinName(StringHelper.getPingYin(persons.get(j).getName().toString()));
-			pinYinNames[j] = StringHelper.getPingYin(persons.get(j).getName().toString());
+		String[] pinYinNames = new String[courses.size()];
+		for (int j = 0; j < courses.size(); j++) {
+			// persons.get(j).setPinYinName(StringHelper.getPingYin(persons.get(j).getName().toString()));
+			pinYinNames[j] = StringHelper.getPingYin(courses.get(j).getName().toString());
 		}
 		// 将原数据拷贝到新数据中
 		System.arraycopy(pinYinNames, 0, names, set.size(), pinYinNames.length);
@@ -225,5 +242,29 @@ public class IndexListViewActivity extends Activity {
 		persons.add(p21);
 
 	}
+
+	private Handler myHandler = new Handler() {
+
+		public void handleMessage(android.os.Message msg) {
+			// setData();
+			String[] allNames = sortIndex((List<Course>) msg.obj);
+			sortList(allNames);
+
+			selector = new HashMap<String, Integer>();
+			for (int j = 0; j < indexStr.length; j++) {// 循环字母表，找出newPersons中对应字母的位置
+				for (int i = 0; i < newCourse.size(); i++) {
+					if (newCourse.get(i).getName().equals(indexStr[j])) {
+						selector.put(indexStr[j], i);
+					}
+				}
+
+			}
+			// adapter = new ListViewAdapter(IndexListViewActivity.this,
+			// newPersons);
+			adapter = new ListViewAdapter(IndexListViewActivity.this, newCourse);
+			listView.setAdapter(adapter);
+		};
+
+	};
 
 }
