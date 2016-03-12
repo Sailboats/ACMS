@@ -3,13 +3,20 @@
  */
 package com.caoligai.acms;
 
+import java.util.List;
+
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
+import com.caoligai.acms.avobject.CheckItemPreview;
 import com.caoligai.acms.avobject.Course;
+import com.caoligai.acms.avobject.CourseDetialTime;
+import com.caoligai.acms.utils.DateUtils;
 import com.caoligai.acms.utils.LogUtils;
 import com.caoligai.acms.utils.UserUtils;
 
@@ -25,6 +32,8 @@ import android.util.Log;
  */
 public class MyApplication extends Application {
 
+	private String tag = "MyApplication";
+
 	MyApplication mContext;
 
 	UserUtils mUserUtils;
@@ -36,6 +45,79 @@ public class MyApplication extends Application {
 		mContext = this;
 
 		initLeanCloud();
+
+		createTestData();
+	}
+
+	/**
+	 * 创建测试数据
+	 */
+	private void createTestData() {
+
+		// createCheckItemPreviewdata("C语言编程入门");
+
+	}
+
+	/**
+	 * 创建课程名为 courseName 的考勤记录预览表
+	 * 
+	 * @param string
+	 */
+	private void createCheckItemPreviewdata(final String courseName) {
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				AVQuery<Course> query = AVObject.getQuery(Course.class);
+				query.whereEqualTo("name", courseName);
+
+				try {
+					int create_record = 1;
+					Course course = query.find().get(0);
+
+					// 获取星期几第几节课
+					AVRelation<CourseDetialTime> relation = course
+							.getDetailTime();
+					List<CourseDetialTime> times = (List<CourseDetialTime>) relation
+							.getQuery().find();
+
+					// 获取总周数
+					int totalWeeks = (Integer) course.getTotalWeeks();
+					// course.setInitDate("2016-03-01");
+					// course.save();
+					LogUtils.Log_debug(tag, "初始化上课日期：" + course.getInitDate());
+
+					for (int i = 1; i <= totalWeeks; i++) {
+						for (CourseDetialTime courseDetialTime : times) {
+
+							CheckItemPreview item = new CheckItemPreview();
+							item.setCourseId(course.getObjectId());
+							item.setWeek(i);
+							item.setDayOfWeek(courseDetialTime.getDayOfWeek());
+							item.setCourseIndexOfDay(courseDetialTime
+									.getIndexOfDay());
+							item.setDate(DateUtils.getDateString(
+									course.getInitDate(),
+									i - 1,
+									(Integer) courseDetialTime.getDayOfWeek() - 1));
+
+							item.save();
+							LogUtils.Log_debug(tag, "成功创建第 " + create_record
+									+ " 条考勤记录预览项");
+							create_record++;
+						}
+
+					}
+
+				} catch (AVException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
+
 	}
 
 	public MyApplication getContext() {
@@ -49,9 +131,12 @@ public class MyApplication extends Application {
 
 		// 初始化 AVObject 子类
 		AVObject.registerSubclass(Course.class);
+		AVObject.registerSubclass(CourseDetialTime.class);
+		AVObject.registerSubclass(CheckItemPreview.class);
 
 		// 初始化参数依次为 this, AppId, AppKey
-		AVOSCloud.initialize(this, "xFY1tb9f2039kf2VucpsRDva-gzGzoHsz", "f428q4rbkKRUsrhXHtXghQw6");
+		AVOSCloud.initialize(this, "xFY1tb9f2039kf2VucpsRDva-gzGzoHsz",
+				"f428q4rbkKRUsrhXHtXghQw6");
 
 		/*
 		 * // 测试 SDK 是否正常工作的代码 AVObject testObject = new AVObject("TestObject");
