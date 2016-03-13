@@ -2,11 +2,16 @@ package com.caoligai.acms.adapter;
 
 import java.util.List;
 
+import com.caoligai.acms.Constants;
 import com.caoligai.acms.R;
+import com.caoligai.acms.activity.CheckItemPreviewActivity;
+import com.caoligai.acms.avobject.CheckItemPreview;
 import com.caoligai.acms.avobject.Course;
 import com.caoligai.acms.entity.Person;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,20 +57,35 @@ public class ListViewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		String item = list.get(position).getName();
 		final String name = item;
+		final String itemId = list.get(position).getObjectId();
 		viewHolder = new ViewHolder();
 		if (item.length() == 1) {
-			convertView = LayoutInflater.from(context).inflate(R.layout.index, null);
-			viewHolder.indexTv = (TextView) convertView.findViewById(R.id.indexTv);
+			convertView = LayoutInflater.from(context).inflate(R.layout.index,
+					null);
+			viewHolder.indexTv = (TextView) convertView
+					.findViewById(R.id.indexTv);
 			viewHolder.indexTv.setText(list.get(position).getName());
 		} else {
-			convertView = LayoutInflater.from(context).inflate(R.layout.item, null);
-			viewHolder.itemTv = (TextView) convertView.findViewById(R.id.itemTv);
+			convertView = LayoutInflater.from(context).inflate(R.layout.item,
+					null);
+			viewHolder.itemTv = (TextView) convertView
+					.findViewById(R.id.itemTv);
 			viewHolder.itemTv.setText(list.get(position).getName());
 			viewHolder.itemTv.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					Toast.makeText(context, "点击了 " + name, Toast.LENGTH_SHORT).show();
+					// Toast.makeText(context, "点击了 " + name,
+					// Toast.LENGTH_SHORT)
+					// .show();
+					// Intent intent = new Intent(context,
+					// CheckItemPreview.class);
+					// Bundle bundle = new Bundle();
+					// bundle.putString("CheckItemPreviewId", itemId);
+					// // intent.putextra
+					context.startActivity(new Intent(context,
+							CheckItemPreviewActivity.class).putExtra(
+							Constants.COURSE_ID, itemId));
 				}
 			});
 		}

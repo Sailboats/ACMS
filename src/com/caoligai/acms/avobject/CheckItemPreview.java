@@ -64,11 +64,11 @@ public class CheckItemPreview extends AVObject {
 	private String date = "date";
 
 	public String getDate() {
-		return getString(date);
+		return getString("date");
 	}
 
 	public void setDate(String d) {
-		put(date, d);
+		put("date", d);
 	}
 
 	// 迟到人数
@@ -113,6 +113,13 @@ public class CheckItemPreview extends AVObject {
 
 	public void setAbsentCount(Number count) {
 		put(num_absent, count);
+	}
+
+	// 自定义逻辑
+
+	public boolean hasData() {
+		return !(getAbsentCount().intValue() + getNormalCount().intValue()
+				+ getAbsentCount().intValue() == 0);
 	}
 
 }

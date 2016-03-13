@@ -27,7 +27,8 @@ public class StringHelper {
 		try {
 			for (int i = 0; i < t0; i++) {
 				// 判断是否为汉字字符
-				if (java.lang.Character.toString(t1[i]).matches("[\\u4E00-\\u9FA5]+")) {
+				if (java.lang.Character.toString(t1[i]).matches(
+						"[\\u4E00-\\u9FA5]+")) {
 					t2 = PinyinHelper.toHanyuPinyinStringArray(t1[i], t3);
 					t4 += t2[0];
 				} else {
@@ -79,5 +80,65 @@ public class StringHelper {
 			}
 		}
 		return convert.toUpperCase();
+	}
+
+	/**
+	 * 例如：将“5”转换成“第5周”
+	 * 
+	 * @param str_old
+	 * @return
+	 */
+	public static String getWeekString(int str_old) {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("第 ").append(str_old).append(" 周");
+
+		return sb.toString();
+	}
+
+	/**
+	 * 例如：输入“3,1” 返回“星期三 1、2节”
+	 * 
+	 * @param week_index
+	 * @param course_index
+	 * @return
+	 */
+	public static String getWeekAndCourseIndexString(int week_index,
+			int course_index) {
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(DateUtils.getDayOfWeek(week_index)).append(" ")
+				.append(getCourseIndexString(course_index));
+		return sb.toString();
+	}
+
+	/**
+	 * 例如：输入“1” 返回“1、2节”
+	 * 
+	 * @param course_index
+	 * @return
+	 */
+	public static String getCourseIndexString(int course_index) {
+		String str = null;
+		switch (course_index) {
+		case 1:
+			str = "1、2节";
+			break;
+		case 2:
+			str = "3、4节";
+			break;
+		case 3:
+			str = "5、6节";
+			break;
+		case 4:
+			str = "7、8节";
+			break;
+
+		default:
+			break;
+		}
+
+		return str;
 	}
 }
