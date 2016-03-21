@@ -7,7 +7,7 @@ import android.os.Message;
 import android.widget.ListView;
 
 import com.caoligai.acms.BaseActivity;
-import com.caoligai.acms.Constants;
+import com.caoligai.acms.Setting;
 import com.caoligai.acms.R;
 import com.caoligai.acms.adapter.CheckItemPreviewAdapter;
 import com.caoligai.acms.avobject.CheckItemPreview;
@@ -43,7 +43,7 @@ public class CheckItemPreviewActivity extends BaseActivity {
 	protected void initData() {
 		setIsTopActivity(false);
 
-		courseId = getIntent().getStringExtra(Constants.COURSE_ID);
+		courseId = getIntent().getStringExtra(Setting.COURSE_ID);
 		LogUtils.Log_debug(tag, "¿Î³ÌidÎª£º " + courseId);
 
 		new Thread(new Runnable() {

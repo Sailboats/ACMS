@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.caoligai.acms.BaseActivity;
+import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
 import com.caoligai.acms.adapter.MyFragmentPagerAdapter;
 import com.caoligai.acms.fragment.AdminCheckFragment;
 import com.caoligai.acms.fragment.AdminMainFragment;
 import com.caoligai.acms.fragment.AdminOtherFragment;
+import com.caoligai.acms.fragment.StudentIndexFragment;
 
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
@@ -82,11 +84,25 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 
 		list = new ArrayList<Fragment>();
 
-		list.add(new AdminMainFragment());
-		list.add(new AdminCheckFragment());
-		list.add(new AdminOtherFragment());
+		// 用户类型为管理员
+		if (((MyApplication) getApplication()).getmUserUtils().getUserType() == 0) {
 
-		mViewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), list));
+			list.add(new AdminMainFragment());
+			list.add(new AdminCheckFragment());
+			list.add(new AdminOtherFragment());
+
+		}
+		// 用户类型为学生
+		if (((MyApplication) getApplication()).getmUserUtils().getUserType() == 2) {
+
+			list.add(new StudentIndexFragment());
+			list.add(new AdminCheckFragment());
+			list.add(new AdminOtherFragment());
+
+		}
+
+		mViewPager.setAdapter(new MyFragmentPagerAdapter(
+				getSupportFragmentManager(), list));
 		mViewPager.setCurrentItem(0);
 
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {

@@ -2,7 +2,7 @@ package com.caoligai.acms.adapter;
 
 import java.util.List;
 
-import com.caoligai.acms.Constants;
+import com.caoligai.acms.Setting;
 import com.caoligai.acms.R;
 import com.caoligai.acms.activity.CheckItemPreviewActivity;
 import com.caoligai.acms.avobject.CheckItemPreview;
@@ -85,7 +85,7 @@ public class ListViewAdapter extends BaseAdapter {
 					// // intent.putextra
 					context.startActivity(new Intent(context,
 							CheckItemPreviewActivity.class).putExtra(
-							Constants.COURSE_ID, itemId));
+							Setting.COURSE_ID, itemId));
 				}
 			});
 		}

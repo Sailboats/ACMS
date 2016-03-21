@@ -12,6 +12,7 @@ import com.avos.avoscloud.LogInCallback;
 import com.caoligai.acms.BaseActivity;
 import com.caoligai.acms.activity.HomeActivity;
 import com.caoligai.acms.activity.LoginActivity;
+import com.caoligai.acms.avobject.MyUser;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -37,7 +38,7 @@ public class UserUtils {
 
 	private static final String PRE_NAME = "userPre";
 	private static final String HAS_REMEMBER_USER = "has_remember_user";
-	private static final String[] PARS = { "name", "password" };
+	private static final String[] PARS = { "name", "password", "userType" };
 
 	public UserUtils(Context context) {
 		this.context = context;
@@ -64,24 +65,30 @@ public class UserUtils {
 		final String name = tel, pass = password;
 		mAVUser = new AVUser();
 
-		final ProgressDialog dialog = ProgressDialog.show(context, "", "正在登陆...", true);
+		final ProgressDialog dialog = ProgressDialog.show(context, "",
+				"正在登陆...", true);
 
 		mAVUser.logInInBackground(tel, password, new LogInCallback() {
 			public void done(AVUser user, AVException e) {
 				dialog.dismiss();
 				if (e == null) {
 					// 登录成功
-					LogUtils.Log_debug(tag, "登录成功");
-					saveNameAndPassword(name, pass);
-					context.startActivity(new Intent(context, HomeActivity.class));
+					LogUtils.Log_debug(tag, "登录成功: " + user.getUsername()
+							+ "用户类型： "
+							+ ((MyUser) user).getUserType().intValue());
+					saveNameAndPassword(name, pass, ((MyUser) user)
+							.getUserType().intValue());
+					context.startActivity(new Intent(context,
+							HomeActivity.class));
 					((LoginActivity) context).finish();
 				} else {
 					// 登录失败
 					LogUtils.Log_debug(tag, "登录失败");
-					Toast.makeText(context, "登录失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, "登录失败: " + e.getMessage(),
+							Toast.LENGTH_SHORT).show();
 				}
 			}
-		});
+		}, MyUser.class);
 	}
 
 	/**
@@ -112,10 +119,11 @@ public class UserUtils {
 	 * @param name
 	 * @param password
 	 */
-	public void saveNameAndPassword(String name, String password) {
+	public void saveNameAndPassword(String name, String password, int userType) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put(PARS[0], name);
 		map.put(PARS[1], password);
+		map.put(PARS[2], userType + "");
 
 		getPrefUtils().putString(PRE_NAME, map);
 		getPrefUtils().setBoolean(HAS_REMEMBER_USER, true);
@@ -126,6 +134,18 @@ public class UserUtils {
 			spfUtil = new SharePreferenceUtils(context);
 		}
 		return spfUtil;
+	}
+
+	/**
+	 * 获取本地用户的用户类型
+	 * 
+	 * @return
+	 */
+	public int getUserType() {
+		int userType = Integer.parseInt(getPrefUtils().getString(PRE_NAME,
+				PARS[2])[0]);
+		LogUtils.Log_debug(tag, "本地用户类型： " + userType);
+		return userType;
 	}
 
 }
