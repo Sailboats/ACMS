@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.caoligai.acms.Setting;
+import com.caoligai.acms.entity.CheckResult;
 
 /**
  * @ClassName: DateUtils
@@ -22,8 +23,7 @@ public class DateUtils {
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(calendar.get(Calendar.YEAR)).append("-")
-				.append(calendar.get(Calendar.MONTH) + 1).append("-")
+		sb.append(calendar.get(Calendar.YEAR)).append("-").append(calendar.get(Calendar.MONTH) + 1).append("-")
 				.append(calendar.get(Calendar.DAY_OF_MONTH))
 				.append(" " + getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)));
 
@@ -38,8 +38,7 @@ public class DateUtils {
 	 * @param offset_day
 	 * @return
 	 */
-	public static String getDateString(String old_date, int offset_week,
-			int offset_day) {
+	public static String getDateString(String old_date, int offset_week, int offset_day) {
 		String str_date = null;
 		try {
 			Date date = new SimpleDateFormat("yyyy-MM-dd").parse(old_date);
@@ -215,5 +214,74 @@ public class DateUtils {
 		}
 		return real_day_of_week;
 
+	}
+
+	/**
+	 * 获取当前时间是第几节课，是迟到或者准时
+	 * 
+	 * @return
+	 */
+	public static CheckResult getCheckResult() {
+
+		CheckResult result = new CheckResult();
+
+		Date date = new Date();
+		switch (date.getHours()) {
+		case 7:
+			result.setCourse_index_of_day(1);
+			result.setCheckMode(1);
+			break;
+		case 8:
+			result.setCourse_index_of_day(1);
+			result.setCheckMode(2);
+			break;
+		case 9:
+			if (date.getMinutes() < 45) {
+				result.setCourse_index_of_day(1);
+				result.setCheckMode(2);
+			} else {
+				result.setCourse_index_of_day(2);
+				result.setCheckMode(1);
+			}
+			break;
+		case 10:
+			result.setCourse_index_of_day(2);
+			result.setCheckMode(2);
+			break;
+		case 11:
+			result.setCourse_index_of_day(2);
+			result.setCheckMode(2);
+			break;
+		case 13:
+			result.setCourse_index_of_day(3);
+			result.setCheckMode(1);
+			break;
+		case 14:
+			result.setCourse_index_of_day(3);
+			result.setCheckMode(2);
+			break;
+		case 15:
+			if (date.getMinutes() < 35) {
+				result.setCourse_index_of_day(3);
+				result.setCheckMode(2);
+			} else {
+				result.setCourse_index_of_day(4);
+				result.setCheckMode(1);
+			}
+			break;
+		case 16:
+			result.setCourse_index_of_day(4);
+			result.setCheckMode(2);
+			break;
+		case 17:
+			result.setCourse_index_of_day(4);
+			result.setCheckMode(2);
+			break;
+
+		default:
+			break;
+		}
+
+		return result;
 	}
 }

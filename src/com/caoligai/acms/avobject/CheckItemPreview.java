@@ -1,9 +1,16 @@
 package com.caoligai.acms.avobject;
 
 import java.security.PublicKey;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.caoligai.acms.entity.CheckResult;
+import com.caoligai.acms.utils.DateUtils;
 
 /**
  * 考勤记录预览表
@@ -118,8 +125,58 @@ public class CheckItemPreview extends AVObject {
 	// 自定义逻辑
 
 	public boolean hasData() {
-		return !(getAbsentCount().intValue() + getNormalCount().intValue()
-				+ getAbsentCount().intValue() == 0);
+		return !(getAbsentCount().intValue() + getNormalCount().intValue() + getAbsentCount().intValue() == 0);
 	}
 
+	/**
+	 * 根据所要进行考勤的课程获取对应的考勤预览项
+	 * 
+	 * @param course
+	 * @return
+	 */
+	public static CheckItemPreview getCheckItemPreviewByCourse(Course course) {
+
+		CheckItemPreview item = null;
+
+		CheckResult checkResult = DateUtils.getCheckResult();
+
+		AVQuery<CheckItemPreview> query = AVObject.getQuery(CheckItemPreview.class);
+		// 日期和第几节唯一确定一条 CheckItemPreview 记录
+		query.whereEqualTo("date", DateUtils.getDateString(Calendar.getInstance(), 0));
+		query.whereEqualTo("course_index_of_day", checkResult.getCourse_index_of_day());
+
+		try {
+			item = query.find().get(0);
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+
+		return item;
+	}
+
+	/**
+	 * 增加一个迟到或者准时或者缺席或者请假的数量
+	 * 
+	 * @param checkMode
+	 *            1 = 准时; 2 = 迟到; 3 = 缺席; 4 = 请假;
+	 */
+	public void AddOneCount(int checkMode) {
+		switch (checkMode) {
+		case 1:
+			setNormalCount(getNormalCount().intValue() + 1);
+			break;
+		case 2:
+			setLateCount(getLateCount().intValue() + 1);
+			break;
+		case 3:
+			setAbsentCount(getAbsentCount().intValue() + 1);
+			break;
+		case 4:
+			setLeaveCount(getLeaveCount().intValue() + 1);
+			break;
+
+		default:
+			break;
+		}
+	}
 }

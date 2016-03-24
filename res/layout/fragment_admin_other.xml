@@ -5,11 +5,26 @@
     android:background="@color/bg_normol"
     android:orientation="vertical" >
 
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/border" />
+
+    <TextView
+        android:id="@+id/tv_exit_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_white"
         android:gravity="center"
-        android:textSize="30sp"
-        android:text="其它" />
+        android:padding="10dp"
+        android:text="退出登录"
+        android:textColor="@color/font_black"
+        android:textSize="30px" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/border" />
 
 </LinearLayout>
