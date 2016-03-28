@@ -1,10 +1,5 @@
 package com.caoligai.acms.avobject;
 
-import java.security.PublicKey;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -142,7 +137,7 @@ public class CheckItemPreview extends AVObject {
 
 		AVQuery<CheckItemPreview> query = AVObject.getQuery(CheckItemPreview.class);
 		// 日期和第几节唯一确定一条 CheckItemPreview 记录
-		query.whereEqualTo("date", DateUtils.getDateString(Calendar.getInstance(), 0));
+		query.whereEqualTo("date", DateUtils.getDateString());
 		query.whereEqualTo("course_index_of_day", checkResult.getCourse_index_of_day());
 
 		try {

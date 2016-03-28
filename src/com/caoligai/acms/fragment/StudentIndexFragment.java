@@ -1,12 +1,17 @@
 package com.caoligai.acms.fragment;
 
+import java.util.Calendar;
+
 import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
 import com.caoligai.acms.avobject.CheckItem;
 import com.caoligai.acms.avobject.Course;
 import com.caoligai.acms.avobject.MyUser;
 import com.caoligai.acms.utils.LogUtils;
+import com.caoligai.acms.widget.MonPickerDialog;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +33,17 @@ public class StudentIndexFragment extends Fragment {
 	private TextView tv_tips, tv_courseName;
 	private Button btn_check;
 	private MyUser mUser;
+	/**
+	 * 签到成功
+	 */
 	private static final int CHECK_SUCCESS = 1;
+
+	/**
+	 * 有一门可以签到的课程
+	 */
 	private static final int GOT_ONE_COURSE = 2;
+
+	private static final int HAS_CHECKED = 3;
 
 	private String tag = getClass().getSimpleName();
 
@@ -69,6 +84,7 @@ public class StudentIndexFragment extends Fragment {
 						}
 					}
 				}).start();
+
 			}
 		});
 	}
@@ -95,14 +111,25 @@ public class StudentIndexFragment extends Fragment {
 					course = Course.getNowCanCheckCourse(mUser.getStudentXueHao());
 
 					if (course != null) {
-						Message msg = mHandler.obtainMessage();
-						msg.what = GOT_ONE_COURSE;
-						msg.obj = course;
-						mHandler.sendMessage(msg);
+						// 检查是否已经进行签到
+						if (CheckItem.hasChecked(course)) {
+							// 已经签到过
+							Message msg = mHandler.obtainMessage();
+							msg.what = HAS_CHECKED;
+							msg.obj = course;
+							mHandler.sendMessage(msg);
+						} else {
+							// 未签到
+							Message msg = mHandler.obtainMessage();
+							msg.what = GOT_ONE_COURSE;
+							msg.obj = course;
+							mHandler.sendMessage(msg);
+						}
+
 					}
 
 					try {
-						Thread.sleep(8000);
+						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -120,12 +147,19 @@ public class StudentIndexFragment extends Fragment {
 				tv_tips.setVisibility(View.GONE);
 				tv_courseName.setVisibility(View.VISIBLE);
 				btn_check.setVisibility(View.VISIBLE);
+				btn_check.setClickable(true);
 
 				tv_courseName.setText(course.getName());
 			}
 
 			if (msg.what == CHECK_SUCCESS) {
 				Toast.makeText(StudentIndexFragment.this.getActivity(), "签到成功", Toast.LENGTH_SHORT).show();
+			}
+
+			if (msg.what == HAS_CHECKED) {
+				btn_check.setVisibility(View.VISIBLE);
+				btn_check.setText("已签到");
+				btn_check.setClickable(false);
 			}
 
 		};

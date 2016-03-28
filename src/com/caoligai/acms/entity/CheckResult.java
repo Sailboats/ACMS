@@ -11,13 +11,18 @@ public class CheckResult {
 
 	private int course_index_of_day;
 
-	public CheckResult() {
-	}
-
 	/**
 	 * 1 = 准时; 2 = 迟到; 3 = 缺席; 4 = 请假;
 	 */
 	private int checkMode;
+
+	public CheckResult() {
+	}
+
+	public CheckResult(int course_index_of_day, int checkMode) {
+		this.course_index_of_day = course_index_of_day;
+		this.checkMode = checkMode;
+	}
 
 	public int getCheckMode() {
 		return checkMode;

@@ -1,8 +1,11 @@
 package com.caoligai.acms.avobject;
 
+import java.util.List;
+
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.caoligai.acms.entity.CheckResult;
 import com.caoligai.acms.utils.DateUtils;
 
@@ -155,6 +158,31 @@ public class CheckItem extends AVObject {
 		}
 
 		return null;
+	}
+
+	/**
+	 * 检查当前时刻是否已经进行过签到,如果存在一个 CheckItem 记录，它的 checkItemPreviewId 字段等于要进行签到的
+	 * CheckItemPreview 的 id ，说明已经进行过签到
+	 * 
+	 * @param course
+	 * @return
+	 */
+	public static boolean hasChecked(Course course) {
+		// 首先获取想要进行签到的 CheckItemPreview 的 id
+		CheckItemPreview preItem = CheckItemPreview.getCheckItemPreviewByCourse(course);
+		String itemId = preItem.getObjectId();
+
+		AVQuery<CheckItemPreview> query = AVObject.getQuery(CheckItemPreview.class);
+		try {
+			if (null != query.get(itemId)) {
+				// 已经进行签到
+				return true;
+			}
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 }

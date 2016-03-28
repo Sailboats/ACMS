@@ -19,6 +19,15 @@ public class DateUtils {
 
 	private static String tag = "DateUtils";
 
+	/**
+	 * 获取指定日期的"2016-3-28 星期一"形式字符串
+	 * 
+	 * @param calendar
+	 *            日期
+	 * @param offset
+	 *            偏移天数
+	 * @return
+	 */
 	public static String getDateString(Calendar calendar, int offset) {
 
 		StringBuilder sb = new StringBuilder();
@@ -28,6 +37,16 @@ public class DateUtils {
 				.append(" " + getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)));
 
 		return sb.toString();
+	}
+
+	/**
+	 * 获取当前日期的"2016-03-28"形式字符串
+	 * 
+	 * @return
+	 */
+	public static String getDateString() {
+
+		return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 	}
 
 	/**

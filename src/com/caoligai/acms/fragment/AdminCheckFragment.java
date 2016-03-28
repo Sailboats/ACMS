@@ -67,21 +67,24 @@ public class AdminCheckFragment extends Fragment implements OnClickListener {
 		case R.id.ll_insertandupdate:
 			// new AlertDialog.Builder(getActivity()).setItems(new String[] {
 			// "Item1", "Item2" }, null).show();
-			DialogUtils.showListDialog(getActivity(), new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					if (0 == which) {
-						startActivity(new Intent(getActivity(), IndexListViewActivity.class));
-					}
-					if (1 == which) {
-						Toast.makeText(getActivity(), "正在开发", Toast.LENGTH_SHORT).show();
-					}
-				}
-			}, "按课程", "按学生");
+			// DialogUtils.showListDialog(getActivity(), new
+			// DialogInterface.OnClickListener() {
+			//
+			// @Override
+			// public void onClick(DialogInterface dialog, int which) {
+			// if (0 == which) {
+			// startActivity(new Intent(getActivity(),
+			// IndexListViewActivity.class));
+			// }
+			// if (1 == which) {
+			// Toast.makeText(getActivity(), "正在开发", Toast.LENGTH_SHORT).show();
+			// }
+			// }
+			// }, "按课程", "按学生");
+			startActivity(new Intent(getActivity(), IndexListViewActivity.class));
 			break;
 		case R.id.ll_search:
-
+			
 			break;
 
 		default:

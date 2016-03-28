@@ -15,6 +15,8 @@ import com.caoligai.acms.utils.LogUtils;
 @AVClassName("Course")
 public class Course extends AVObject {
 
+	private String tag = getClass().getSimpleName();
+
 	public Course() {
 	}
 
@@ -92,8 +94,7 @@ public class Course extends AVObject {
 	 */
 	public static Course getNowCanCheckCourse(String xuehao) {
 
-		AVQuery<StudentToCourse> query1 = AVObject
-				.getQuery(StudentToCourse.class);
+		AVQuery<StudentToCourse> query1 = AVObject.getQuery(StudentToCourse.class);
 		query1.whereEqualTo("student_xuehao", xuehao);
 
 		try {
@@ -103,9 +104,7 @@ public class Course extends AVObject {
 				Course course = query.get(studentToCourse.getCourseId());
 				if (course.canNowCheck()) {
 
-					LogUtils.Log_debug(null,
-							"当前可以进行签到的课程id为： " + course.getObjectId()
-									+ " 课程名为： " + course.getName());
+					LogUtils.Log_debug(null, "当前可以进行签到的课程id为： " + course.getObjectId() + " 课程名为： " + course.getName());
 
 					return course;
 				}
@@ -140,12 +139,9 @@ public class Course extends AVObject {
 			times = time_relation.getQuery().find();
 
 			for (CourseDetialTime time : times) {
-				if (time.getDayOfWeek().intValue() == DateUtils
-						.getRealDayOfWeek(cal_now.get(Calendar.DAY_OF_WEEK))
-						&& cal_now.after(DateUtils.getBeginCheckTime(time
-								.getIndexOfDay().intValue()))
-						&& cal_now.before(DateUtils.getEndCheckTime(time
-								.getIndexOfDay().intValue()))) {
+				if (time.getDayOfWeek().intValue() == DateUtils.getRealDayOfWeek(cal_now.get(Calendar.DAY_OF_WEEK))
+						&& cal_now.after(DateUtils.getBeginCheckTime(time.getIndexOfDay().intValue()))
+						&& cal_now.before(DateUtils.getEndCheckTime(time.getIndexOfDay().intValue()))) {
 
 					LogUtils.Log_debug(null, "当前有可以进行签到的课程");
 					return true;

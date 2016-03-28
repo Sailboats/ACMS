@@ -3,6 +3,7 @@
  */
 package com.caoligai.acms;
 
+import java.util.Calendar;
 import java.util.List;
 
 import com.avos.avoscloud.AVException;
@@ -57,7 +58,25 @@ public class MyApplication extends Application {
 	 */
 	private void createTestData() {
 
-		// createCheckItemPreviewdata("C语言编程入门");
+		// createCheckItemPreviewdata("应用密码学基础");
+
+		// testQuery();
+
+	}
+
+	private void testQuery() {
+		AVQuery<CheckItemPreview> query = AVObject.getQuery(CheckItemPreview.class);
+
+		query.whereEqualTo("date", "2016-03-28");
+		query.whereEqualTo("course_index_of_day",
+				/* checkResult.getCourse_index_of_day() */4);
+		try {
+			List<CheckItemPreview> result = query.find();
+			LogUtils.Log_debug(tag, "对象id = " + result.get(0).getObjectId());
+			return;
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -71,51 +90,46 @@ public class MyApplication extends Application {
 		new Thread(new Runnable() {
 
 			@Override
-			public void run() {/*
-								 * 
-								 * AVQuery<Course> query =
-								 * AVObject.getQuery(Course.class);
-								 * query.whereEqualTo("name", courseName);
-								 * 
-								 * try { int create_record = 1; Course course =
-								 * query.find().get(0);
-								 * 
-								 * // 获取星期几第几节课 AVRelation<CourseDetialTime>
-								 * relation = course .getDetailTime();
-								 * List<CourseDetialTime> times =
-								 * (List<CourseDetialTime>) relation
-								 * .getQuery().find();
-								 * 
-								 * // 获取总周数 int totalWeeks = (Integer)
-								 * course.getTotalWeeks(); //
-								 * course.setInitDate("2016-03-01"); //
-								 * course.save(); LogUtils.Log_debug(tag,
-								 * "初始化上课日期：" + course.getInitDate());
-								 * 
-								 * for (int i = 1; i <= totalWeeks; i++) { for
-								 * (CourseDetialTime courseDetialTime : times) {
-								 * 
-								 * CheckItemPreview item = new
-								 * CheckItemPreview();
-								 * item.setCourseId(course.getObjectId());
-								 * item.setWeek(i);
-								 * item.setDayOfWeek(courseDetialTime
-								 * .getDayOfWeek());
-								 * item.setCourseIndexOfDay(courseDetialTime
-								 * .getIndexOfDay());
-								 * item.setDate(DateUtils.getDateString(
-								 * course.getInitDate(), i - 1, (Integer)
-								 * courseDetialTime.getDayOfWeek() - 1));
-								 * 
-								 * item.save(); LogUtils.Log_debug(tag, "成功创建第 "
-								 * + create_record + " 条考勤记录预览项");
-								 * create_record++; }
-								 * 
-								 * }
-								 * 
-								 * } catch (AVException e) {
-								 * e.printStackTrace(); }
-								 */
+			public void run() {
+
+				AVQuery<Course> query = AVObject.getQuery(Course.class);
+				query.whereEqualTo("name", courseName);
+
+				try {
+					int create_record = 1;
+					Course course = query.find().get(0);
+
+					// 获取星期几第几节课
+					AVRelation<CourseDetialTime> relation = course.getDetailTime();
+					List<CourseDetialTime> times = (List<CourseDetialTime>) relation.getQuery().find();
+
+					// 获取总周数
+					int totalWeeks = (Integer) course.getTotalWeeks();
+					course.setInitDate("2016-03-01");
+					course.save();
+					LogUtils.Log_debug(tag, "初始化上课日期：" + course.getInitDate());
+
+					for (int i = 1; i <= totalWeeks; i++) {
+						for (CourseDetialTime courseDetialTime : times) {
+
+							CheckItemPreview item = new CheckItemPreview();
+							item.setCourseId(course.getObjectId());
+							item.setWeek(i);
+							item.setDayOfWeek(courseDetialTime.getDayOfWeek());
+							item.setCourseIndexOfDay(courseDetialTime.getIndexOfDay());
+							item.setDate(DateUtils.getDateString(course.getInitDate(), i - 1,
+									(Integer) courseDetialTime.getDayOfWeek() - 1));
+
+							item.save();
+							LogUtils.Log_debug(tag, "成功创建第 " + create_record + " 条考勤记录预览项");
+							create_record++;
+						}
+
+					}
+
+				} catch (AVException e) {
+					e.printStackTrace();
+				}
 
 				/*
 				 * AVQuery<Course> query = AVObject.getQuery(Course.class); try

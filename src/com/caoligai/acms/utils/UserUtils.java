@@ -30,7 +30,7 @@ public class UserUtils {
 
 	private String tag = "UserUtils";
 
-	AVUser mAVUser;
+	MyUser mAVUser;
 
 	private Context context;
 
@@ -42,14 +42,14 @@ public class UserUtils {
 
 	public UserUtils(Context context) {
 		this.context = context;
-		mAVUser = AVUser.getCurrentUser();
+		mAVUser = (MyUser) AVUser.getCurrentUser();
 	}
 
 	public AVUser getmAVUser() {
 		return mAVUser;
 	}
 
-	public void setmAVUser(AVUser mAVUser) {
+	public void setmAVUser(MyUser mAVUser) {
 		this.mAVUser = mAVUser;
 	}
 
@@ -60,7 +60,7 @@ public class UserUtils {
 	 */
 	public boolean hasCurrentUser() {
 
-		mAVUser = AVUser.getCurrentUser();
+		mAVUser = (MyUser) AVUser.getCurrentUser();
 
 		if (null == mAVUser) {
 			return false;
@@ -72,7 +72,7 @@ public class UserUtils {
 
 	public void login(final Context context, String tel, String password) {
 		final String name = tel, pass = password;
-		mAVUser = new AVUser();
+		mAVUser = new MyUser();
 
 		final ProgressDialog dialog = ProgressDialog.show(context, "", "ÕýÔÚµÇÂ½...", true);
 
