@@ -68,25 +68,7 @@ public class StudentIndexFragment extends Fragment {
 		// tv_tips.setVisibility(View.GONE);
 		tv_courseName.setVisibility(View.GONE);
 		btn_check.setVisibility(View.GONE);
-		btn_check.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						if (CheckItem.Check(course, mUser) != null) {
-							// TODO 签到成功
-							Message msg = mHandler.obtainMessage();
-							msg.what = CHECK_SUCCESS;
-							mHandler.sendMessage(msg);
-						}
-					}
-				}).start();
-
-			}
-		});
+		btn_check.setOnClickListener(listener);
 	}
 
 	@Override
@@ -95,6 +77,26 @@ public class StudentIndexFragment extends Fragment {
 
 		initData();
 	}
+
+	OnClickListener listener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					if (CheckItem.Check(course, mUser) != null) {
+						// TODO 签到成功
+						Message msg = mHandler.obtainMessage();
+						msg.what = CHECK_SUCCESS;
+						mHandler.sendMessage(msg);
+					}
+				}
+			}).start();
+
+		}
+	};
 
 	private void initData() {
 
@@ -112,7 +114,7 @@ public class StudentIndexFragment extends Fragment {
 
 					if (course != null) {
 						// 检查是否已经进行签到
-						if (CheckItem.hasChecked(course)) {
+						if (CheckItem.hasChecked(course, mUser.getStudentXueHao())) {
 							// 已经签到过
 							Message msg = mHandler.obtainMessage();
 							msg.what = HAS_CHECKED;
@@ -148,18 +150,23 @@ public class StudentIndexFragment extends Fragment {
 				tv_courseName.setVisibility(View.VISIBLE);
 				btn_check.setVisibility(View.VISIBLE);
 				btn_check.setClickable(true);
+				btn_check.setOnClickListener(listener);
 
 				tv_courseName.setText(course.getName());
 			}
 
 			if (msg.what == CHECK_SUCCESS) {
 				Toast.makeText(StudentIndexFragment.this.getActivity(), "签到成功", Toast.LENGTH_SHORT).show();
+				btn_check.setText("已签到");
+				btn_check.setClickable(false);
+				btn_check.setOnClickListener(null);
 			}
 
 			if (msg.what == HAS_CHECKED) {
 				btn_check.setVisibility(View.VISIBLE);
 				btn_check.setText("已签到");
 				btn_check.setClickable(false);
+				btn_check.setOnClickListener(null);
 			}
 
 		};

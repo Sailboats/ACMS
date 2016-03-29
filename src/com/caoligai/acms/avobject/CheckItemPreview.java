@@ -172,6 +172,13 @@ public class CheckItemPreview extends AVObject {
 
 		default:
 			break;
+
+		}
+
+		try {
+			save();
+		} catch (AVException e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -162,19 +162,22 @@ public class CheckItem extends AVObject {
 
 	/**
 	 * 检查当前时刻是否已经进行过签到,如果存在一个 CheckItem 记录，它的 checkItemPreviewId 字段等于要进行签到的
-	 * CheckItemPreview 的 id ，说明已经进行过签到
+	 * CheckItemPreview 的 id ，并且 xuehao 等于学生学号，说明该学生已经进行过签到
 	 * 
 	 * @param course
 	 * @return
 	 */
-	public static boolean hasChecked(Course course) {
+	public static boolean hasChecked(Course course, String xuehao) {
 		// 首先获取想要进行签到的 CheckItemPreview 的 id
 		CheckItemPreview preItem = CheckItemPreview.getCheckItemPreviewByCourse(course);
 		String itemId = preItem.getObjectId();
 
-		AVQuery<CheckItemPreview> query = AVObject.getQuery(CheckItemPreview.class);
+		AVQuery<CheckItem> query = AVObject.getQuery(CheckItem.class);
+		query.whereEqualTo("checkItemPreviewId", itemId);
+		query.whereEqualTo("stu_xuehao", xuehao);
 		try {
-			if (null != query.get(itemId)) {
+			List<CheckItem> result = query.find();
+			if (result.size() == 1) {
 				// 已经进行签到
 				return true;
 			}
