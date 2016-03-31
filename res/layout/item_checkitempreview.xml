@@ -70,7 +70,7 @@
                 <ImageView
                     android:layout_width="40px"
                     android:layout_height="40px"
-                    android:src="@drawable/iv_buttom1" />
+                    android:src="@drawable/ic_late" />
 
                 <TextView
                     android:id="@+id/tv_late"
@@ -91,7 +91,7 @@
                 <ImageView
                     android:layout_width="40px"
                     android:layout_height="40px"
-                    android:src="@drawable/iv_buttom1" />
+                    android:src="@drawable/ic_normal" />
 
                 <TextView
                     android:id="@+id/tv_normal"
@@ -112,10 +112,31 @@
                 <ImageView
                     android:layout_width="40px"
                     android:layout_height="40px"
-                    android:src="@drawable/iv_buttom1" />
+                    android:src="@drawable/ic_absent" />
 
                 <TextView
                     android:id="@+id/tv_absent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="--"
+                    android:textColor="@color/font_black"
+                    android:textSize="32px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_leave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:layout_width="40px"
+                    android:layout_height="40px"
+                    android:src="@drawable/ic_leave" />
+
+                <TextView
+                    android:id="@+id/tv_leave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"

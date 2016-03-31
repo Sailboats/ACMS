@@ -26,6 +26,7 @@ public class CheckItemPreviewActivity extends BaseActivity {
 	 * 课程id
 	 */
 	private String courseId;
+	private int total_stu;
 
 	private List<CheckItemPreview> data;
 
@@ -44,7 +45,9 @@ public class CheckItemPreviewActivity extends BaseActivity {
 		setIsTopActivity(false);
 
 		courseId = getIntent().getStringExtra(Setting.COURSE_ID);
-		LogUtils.Log_debug(tag, "课程id为： " + courseId);
+		total_stu = getIntent().getIntExtra(Setting.TOTAL_STU, 0);
+		LogUtils.Log_debug(tag, "课程id为： " + courseId + " 共有 " + total_stu
+				+ " 人选修了该门课");
 
 		new Thread(new Runnable() {
 
@@ -67,7 +70,7 @@ public class CheckItemPreviewActivity extends BaseActivity {
 		public void handleMessage(android.os.Message msg) {
 
 			mAdapter = new CheckItemPreviewAdapter((List<Object>) msg.obj,
-					CheckItemPreviewActivity.this);
+					total_stu, CheckItemPreviewActivity.this);
 
 			lv_listView.setAdapter(mAdapter);
 

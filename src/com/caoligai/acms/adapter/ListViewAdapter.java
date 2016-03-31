@@ -58,6 +58,7 @@ public class ListViewAdapter extends BaseAdapter {
 		String item = list.get(position).getName();
 		final String name = item;
 		final String itemId = list.get(position).getObjectId();
+		final Number total_stu = list.get(position).getTotalStudents();
 		viewHolder = new ViewHolder();
 		if (item.length() == 1) {
 			convertView = LayoutInflater.from(context).inflate(R.layout.index,
@@ -85,7 +86,8 @@ public class ListViewAdapter extends BaseAdapter {
 					// // intent.putextra
 					context.startActivity(new Intent(context,
 							CheckItemPreviewActivity.class).putExtra(
-							Setting.COURSE_ID, itemId));
+							Setting.COURSE_ID, itemId).putExtra(
+							Setting.TOTAL_STU, total_stu.intValue()));
 				}
 			});
 		}

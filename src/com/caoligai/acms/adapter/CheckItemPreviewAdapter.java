@@ -19,9 +19,16 @@ import android.widget.TextView;
 public class CheckItemPreviewAdapter extends BaseListViewAdapter {
 
 	private String tag = "CheckItemPreviewAdapter";
+	private int total_stu;
 
 	public CheckItemPreviewAdapter(List<Object> data, Context context) {
 		super(data, context);
+	}
+
+	public CheckItemPreviewAdapter(List<Object> data, int total_stu,
+			Context context) {
+		super(data, context);
+		this.total_stu = total_stu;
 	}
 
 	@Override
@@ -43,6 +50,8 @@ public class CheckItemPreviewAdapter extends BaseListViewAdapter {
 					.findViewById(R.id.ll_absent);
 			viewHolder.ll_nodatatips = (LinearLayout) convertView
 					.findViewById(R.id.ll_notdatatips);
+			viewHolder.ll_leave = (LinearLayout) convertView
+					.findViewById(R.id.ll_leave);
 
 			viewHolder.tv_week = (TextView) convertView
 					.findViewById(R.id.tv_week);
@@ -56,6 +65,8 @@ public class CheckItemPreviewAdapter extends BaseListViewAdapter {
 					.findViewById(R.id.tv_normal);
 			viewHolder.tv_absent = (TextView) convertView
 					.findViewById(R.id.tv_absent);
+			viewHolder.tv_leave = (TextView) convertView
+					.findViewById(R.id.tv_leave);
 
 			convertView.setTag(viewHolder);
 
@@ -70,11 +81,13 @@ public class CheckItemPreviewAdapter extends BaseListViewAdapter {
 			viewHolder.ll_late.setVisibility(View.GONE);
 			viewHolder.ll_normal.setVisibility(View.GONE);
 			viewHolder.ll_absent.setVisibility(View.GONE);
+			viewHolder.ll_leave.setVisibility(View.GONE);
 			viewHolder.ll_nodatatips.setVisibility(View.VISIBLE);
 		} else {
 			viewHolder.ll_late.setVisibility(View.VISIBLE);
 			viewHolder.ll_normal.setVisibility(View.VISIBLE);
 			viewHolder.ll_absent.setVisibility(View.VISIBLE);
+			viewHolder.ll_leave.setVisibility(View.VISIBLE);
 			viewHolder.ll_nodatatips.setVisibility(View.GONE);
 		}
 
@@ -87,14 +100,18 @@ public class CheckItemPreviewAdapter extends BaseListViewAdapter {
 		LogUtils.Log_debug(tag, "预览项日期为： " + item.getDate());
 		viewHolder.tv_late.setText(item.getLateCount() + "");
 		viewHolder.tv_normal.setText(item.getNormalCount() + "");
-		viewHolder.tv_absent.setText(item.getAbsentCount() + "");
+		viewHolder.tv_leave.setText(item.getLeaveCount() + "");
+		viewHolder.tv_absent.setText(total_stu - item.getLateCount().intValue()
+				- item.getNormalCount().intValue()
+				- item.getLeaveCount().intValue() + "");
 
 		return convertView;
 	}
 
 	static class ViewHolder {
-		public LinearLayout ll_late, ll_normal, ll_absent, ll_nodatatips;
-		public TextView tv_week, tv_time, tv_date, tv_late, tv_normal,
-				tv_absent;
+		public LinearLayout ll_late, ll_normal, ll_absent, ll_leave,
+				ll_nodatatips;
+		public TextView tv_week, tv_time, tv_date, tv_late, tv_leave,
+				tv_normal, tv_absent;
 	}
 }

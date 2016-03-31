@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="考勤预览"
+            android:text="考勤详情"
             android:textColor="@color/font_black"
             android:textSize="13sp" />
 
@@ -45,15 +45,5 @@
             android:layout_alignParentBottom="true"
             android:background="@color/border_title" />
     </RelativeLayout>
-
-    <!-- 列表 -->
-
-    <ListView
-        android:id="@+id/lv_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/bg_normol"
-        android:dividerHeight="10px" >
-    </ListView>
 
 </LinearLayout>

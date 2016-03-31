@@ -24,6 +24,7 @@ public class CheckItemPreviewDao {
 				.getQuery(CheckItemPreview.class);
 		query.whereEqualTo("courseId", courseId);
 		query.addAscendingOrder("createAt");
+		query.limit(200);
 
 		List<CheckItemPreview> data = null;
 		try {

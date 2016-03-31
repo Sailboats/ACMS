@@ -16,16 +16,17 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_settings_ethernet_black_48dp" />
+            android:src="@drawable/ic_settings_ethernet_black_48dp"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tv_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/default_title"
+            android:text="课程列表"
             android:textColor="@color/font_black"
-            android:textSize="40px" />
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/iv_right"
@@ -34,7 +35,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:src="@drawable/ic_settings_ethernet_black_48dp" />
+            android:src="@drawable/ic_settings_ethernet_black_48dp"
+            android:visibility="invisible" />
 
         <View
             android:layout_width="match_parent"

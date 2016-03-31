@@ -32,7 +32,8 @@ public class DateUtils {
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(calendar.get(Calendar.YEAR)).append("-").append(calendar.get(Calendar.MONTH) + 1).append("-")
+		sb.append(calendar.get(Calendar.YEAR)).append("-")
+				.append(calendar.get(Calendar.MONTH) + 1).append("-")
 				.append(calendar.get(Calendar.DAY_OF_MONTH))
 				.append(" " + getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)));
 
@@ -57,7 +58,8 @@ public class DateUtils {
 	 * @param offset_day
 	 * @return
 	 */
-	public static String getDateString(String old_date, int offset_week, int offset_day) {
+	public static String getDateString(String old_date, int offset_week,
+			int offset_day) {
 		String str_date = null;
 		try {
 			Date date = new SimpleDateFormat("yyyy-MM-dd").parse(old_date);
@@ -194,6 +196,7 @@ public class DateUtils {
 	 * 
 	 * @param day_of_week
 	 * @return
+	 * @deprecated 已过时，星期格式已改为和 LeanCloud 平台一致
 	 */
 	public static int getRealDayOfWeek(int day_of_week) {
 
