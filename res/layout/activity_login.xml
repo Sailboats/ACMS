@@ -5,7 +5,46 @@
     android:background="@android:color/white"
     android:orientation="vertical" >
 
-    <include layout="@layout/title" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/bg_white" >
+
+        <ImageView
+            android:id="@+id/iv_left"
+            android:layout_width="@dimen/title_icon_height"
+            android:layout_height="@dimen/title_icon_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_settings_ethernet_black_48dp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="登录"
+            android:textColor="@color/font_black"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:layout_width="@dimen/title_icon_height"
+            android:layout_height="@dimen/title_icon_height"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_settings_ethernet_black_48dp"
+            android:visibility="invisible" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/border_title" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/yitong_iv_huayilogo"
@@ -18,7 +57,7 @@
         android:layout_height="40dp"
         android:background="#eee"
         android:gravity="center"
-        android:text="欢迎使用壹通，请先登录或注册"
+        android:text="欢迎使用ACMS，请先登录或注册"
         android:textSize="15sp" />
 
     <EditText
@@ -68,7 +107,8 @@
             android:gravity="center"
             android:text="忘记密码？"
             android:textColor="@color/font_normal"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/yitong_tv_register"
@@ -78,7 +118,8 @@
             android:gravity="center"
             android:text="新用户注册"
             android:textColor="@color/font_normal"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <View

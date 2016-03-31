@@ -12,6 +12,7 @@ import com.caoligai.acms.widget.MonPickerDialog;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,7 +44,12 @@ public class StudentIndexFragment extends Fragment {
 	 */
 	private static final int GOT_ONE_COURSE = 2;
 
+	/**
+	 * 已经签到
+	 */
 	private static final int HAS_CHECKED = 3;
+	
+	private boolean isCheck = false;
 
 	private String tag = getClass().getSimpleName();
 
@@ -108,17 +114,20 @@ public class StudentIndexFragment extends Fragment {
 			@Override
 			public void run() {
 
-				while (true) {
+				while (!isCheck) {
 
 					course = Course.getNowCanCheckCourse(mUser.getStudentXueHao());
 
 					if (course != null) {
 						// 检查是否已经进行签到
-						if (CheckItem.hasChecked(course, mUser.getStudentXueHao())) {
+						CheckItem item = CheckItem.hasChecked(course, mUser.getStudentXueHao());
+
+						if (item != null) {
 							// 已经签到过
+							isCheck = true;
 							Message msg = mHandler.obtainMessage();
 							msg.what = HAS_CHECKED;
-							msg.obj = course;
+							msg.obj = item;
 							mHandler.sendMessage(msg);
 						} else {
 							// 未签到
@@ -160,13 +169,29 @@ public class StudentIndexFragment extends Fragment {
 				btn_check.setText("已签到");
 				btn_check.setClickable(false);
 				btn_check.setOnClickListener(null);
+
 			}
 
 			if (msg.what == HAS_CHECKED) {
+				tv_courseName.setVisibility(View.VISIBLE);
+				tv_courseName.setText(course.getName());
 				btn_check.setVisibility(View.VISIBLE);
 				btn_check.setText("已签到");
+				// tv_tips.setVisibility(View.GONE);
 				btn_check.setClickable(false);
 				btn_check.setOnClickListener(null);
+				CheckItem item = (CheckItem) msg.obj;
+				tv_tips.setVisibility(View.VISIBLE);
+				LogUtils.Log_debug(tag, "签到信息为：" + item.getIsLate() + "  " + item.getIsNormal());
+				if (item.getIsLate()) {
+					tv_tips.setTextColor(Color.YELLOW);
+					tv_tips.setText("你已迟到，下次要早点来");
+				}
+				if (item.getIsNormal()) {
+					tv_tips.setTextColor(Color.GREEN);
+					tv_tips.setText("准时签到，请继续保持");
+				}
+
 			}
 
 		};

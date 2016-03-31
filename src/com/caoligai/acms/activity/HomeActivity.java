@@ -81,6 +81,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 	@SuppressWarnings("deprecation")
 	private void initViewPager() {
 		mViewPager = (ViewPager) findViewById(R.id.vp_viewpager);
+		mViewPager.setOffscreenPageLimit(3);
 
 		list = new ArrayList<Fragment>();
 

@@ -15,5 +15,8 @@
     <color name="font_date">#471F1F</color>
     <color name="font_white">#ffffff</color>
     <color name="font_tips">#ff0000</color>
+    
+    
+    <color name="btn_normal">#3A5FCD</color>
 
 </resources>

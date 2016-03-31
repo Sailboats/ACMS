@@ -86,6 +86,7 @@ public class UserUtils {
 					saveNameAndPassword(name, pass, ((MyUser) user).getUserType().intValue());
 					context.startActivity(new Intent(context, HomeActivity.class));
 					((LoginActivity) context).finish();
+					mAVUser = (MyUser) user;
 				} else {
 					// µÇÂ¼Ê§°Ü
 					LogUtils.Log_debug(tag, "µÇÂ¼Ê§°Ü");

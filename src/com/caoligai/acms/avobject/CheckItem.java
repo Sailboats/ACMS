@@ -167,7 +167,7 @@ public class CheckItem extends AVObject {
 	 * @param course
 	 * @return
 	 */
-	public static boolean hasChecked(Course course, String xuehao) {
+	public static CheckItem hasChecked(Course course, String xuehao) {
 		// 首先获取想要进行签到的 CheckItemPreview 的 id
 		CheckItemPreview preItem = CheckItemPreview.getCheckItemPreviewByCourse(course);
 		String itemId = preItem.getObjectId();
@@ -179,13 +179,13 @@ public class CheckItem extends AVObject {
 			List<CheckItem> result = query.find();
 			if (result.size() == 1) {
 				// 已经进行签到
-				return true;
+				return result.get(0);
 			}
 		} catch (AVException e) {
 			e.printStackTrace();
 		}
 
-		return false;
+		return null;
 	}
 
 }
