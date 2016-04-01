@@ -2,17 +2,21 @@ package com.caoligai.acms.activity;
 
 import java.util.List;
 
-import android.os.Handler;
-import android.os.Message;
-import android.widget.ListView;
-
 import com.caoligai.acms.BaseActivity;
-import com.caoligai.acms.Setting;
 import com.caoligai.acms.R;
+import com.caoligai.acms.Setting;
 import com.caoligai.acms.adapter.CheckItemPreviewAdapter;
 import com.caoligai.acms.avobject.CheckItemPreview;
 import com.caoligai.acms.dao.CheckItemPreviewDao;
 import com.caoligai.acms.utils.LogUtils;
+
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 public class CheckItemPreviewActivity extends BaseActivity {
 
@@ -46,8 +50,7 @@ public class CheckItemPreviewActivity extends BaseActivity {
 
 		courseId = getIntent().getStringExtra(Setting.COURSE_ID);
 		total_stu = getIntent().getIntExtra(Setting.TOTAL_STU, 0);
-		LogUtils.Log_debug(tag, "课程id为： " + courseId + " 共有 " + total_stu
-				+ " 人选修了该门课");
+		LogUtils.Log_debug(tag, "课程id为： " + courseId + " 共有 " + total_stu + " 人选修了该门课");
 
 		new Thread(new Runnable() {
 
@@ -69,10 +72,19 @@ public class CheckItemPreviewActivity extends BaseActivity {
 	Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 
-			mAdapter = new CheckItemPreviewAdapter((List<Object>) msg.obj,
-					total_stu, CheckItemPreviewActivity.this);
+			final List<CheckItemPreview> data = (List<CheckItemPreview>) msg.obj;
+
+			mAdapter = new CheckItemPreviewAdapter((List<Object>) msg.obj, total_stu, CheckItemPreviewActivity.this);
 
 			lv_listView.setAdapter(mAdapter);
+			lv_listView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					startActivity(new Intent(CheckItemPreviewActivity.this, StudentCheckDetailsActivity.class)
+							.putExtra(Setting.CHECKITEMPREVIEW_ID, data.get(arg2).getObjectId()));
+				}
+			});
 
 		};
 	};

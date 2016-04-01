@@ -87,13 +87,13 @@ public class Course extends AVObject {
 	public void setDone(boolean isDone) {
 		put("done", isDone);
 	}
-	
+
 	// 该门课共有多少学生选修
-	public Number getTotalStudents(){
+	public Number getTotalStudents() {
 		return getNumber("total_stu");
 	}
-	
-	public void setTotalStudents(int total_stu){
+
+	public void setTotalStudents(int total_stu) {
 		put("total_stu", total_stu);
 	}
 
@@ -104,8 +104,7 @@ public class Course extends AVObject {
 	 */
 	public static Course getNowCanCheckCourse(String xuehao) {
 
-		AVQuery<StudentToCourse> query1 = AVObject
-				.getQuery(StudentToCourse.class);
+		AVQuery<StudentToCourse> query1 = AVObject.getQuery(StudentToCourse.class);
 		query1.whereEqualTo("student_xuehao", xuehao);
 
 		try {
@@ -115,9 +114,7 @@ public class Course extends AVObject {
 				Course course = query.get(studentToCourse.getCourseId());
 				if (course.canNowCheck()) {
 
-					LogUtils.Log_debug(null,
-							"当前可以进行签到的课程id为： " + course.getObjectId()
-									+ " 课程名为： " + course.getName());
+					LogUtils.Log_debug(null, "当前可以进行签到的课程id为： " + course.getObjectId() + " 课程名为： " + course.getName());
 
 					return course;
 				}
@@ -152,12 +149,10 @@ public class Course extends AVObject {
 			times = time_relation.getQuery().find();
 
 			for (CourseDetialTime time : times) {
-				if (time.getDayOfWeek().intValue() == cal_now
-						.get(Calendar.DAY_OF_WEEK)
-						&& cal_now.after(DateUtils.getBeginCheckTime(time
-								.getIndexOfDay().intValue()))
-						&& cal_now.before(DateUtils.getEndCheckTime(time
-								.getIndexOfDay().intValue()))) {
+				LogUtils.Log_debug(tag, "详细时间：星期 " + time.getDayOfWeek() + " 第 " + time.getIndexOfDay() + " 节课");
+				if (time.getDayOfWeek().intValue() == cal_now.get(Calendar.DAY_OF_WEEK)
+						&& cal_now.after(DateUtils.getBeginCheckTime(time.getIndexOfDay().intValue()))
+						&& cal_now.before(DateUtils.getEndCheckTime(time.getIndexOfDay().intValue()))) {
 
 					LogUtils.Log_debug(null, "当前有可以进行签到的课程");
 					return true;

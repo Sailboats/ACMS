@@ -36,6 +36,8 @@
         <activity android:name="com.caoligai.acms.activity.IndexListViewActivity" />
         <!-- 考勤结果预览页面 -->
         <activity android:name="com.caoligai.acms.activity.CheckItemPreviewActivity" />
+        <!-- 考勤详情页面 -->
+        <activity android:name="com.caoligai.acms.activity.StudentCheckDetailsActivity" />
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service android:name="com.avos.avoscloud.PushService" />

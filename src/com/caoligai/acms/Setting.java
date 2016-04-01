@@ -10,6 +10,7 @@ public class Setting {
 
 	public static final String COURSE_ID = "courseId";
 	public static final String TOTAL_STU = "total_stu";
+	public static final String CHECKITEMPREVIEW_ID = "checkItemPreviewId";
 
 	// 上课/下课时间
 	public static final int COURSE_INDEX_1_BEGIN_HOUR = 7;

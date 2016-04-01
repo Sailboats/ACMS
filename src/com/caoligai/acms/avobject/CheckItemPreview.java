@@ -120,7 +120,8 @@ public class CheckItemPreview extends AVObject {
 	// ×Ô¶¨ÒåÂß¼­
 
 	public boolean hasData() {
-		return !(getAbsentCount().intValue() + getNormalCount().intValue() + getAbsentCount().intValue() == 0);
+		return !(getLeaveCount().intValue() + getNormalCount().intValue() + getAbsentCount().intValue()
+				+ getLateCount().intValue() == 0);
 	}
 
 	/**

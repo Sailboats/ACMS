@@ -19,6 +19,7 @@ import com.caoligai.acms.avobject.CheckItemPreview;
 import com.caoligai.acms.avobject.Course;
 import com.caoligai.acms.avobject.CourseDetialTime;
 import com.caoligai.acms.avobject.MyUser;
+import com.caoligai.acms.avobject.Student;
 import com.caoligai.acms.avobject.StudentToCourse;
 import com.caoligai.acms.utils.DateUtils;
 import com.caoligai.acms.utils.LogUtils;
@@ -63,17 +64,21 @@ public class MyApplication extends Application {
 //		createCheckItemPreviewdata("java语言程序设计");
 //		createCheckItemPreviewdata("C语言编程入门");
 
+		createAllCheckItemDataByCourseName("应用密码学基础");
+		createAllCheckItemDataByCourseName("信息安全");
+		createAllCheckItemDataByCourseName("java语言程序设计");
+		createAllCheckItemDataByCourseName("C语言编程入门");
+
 		// testQuery();
 
 	}
 
 	private void testQuery() {
-		AVQuery<CheckItemPreview> query = AVObject
-				.getQuery(CheckItemPreview.class);
+		AVQuery<CheckItemPreview> query = AVObject.getQuery(CheckItemPreview.class);
 
 		query.whereEqualTo("date", "2016-03-28");
 		query.whereEqualTo("course_index_of_day",
-		/* checkResult.getCourse_index_of_day() */4);
+				/* checkResult.getCourse_index_of_day() */4);
 		try {
 			List<CheckItemPreview> result = query.find();
 			LogUtils.Log_debug(tag, "对象id = " + result.get(0).getObjectId());
@@ -104,10 +109,8 @@ public class MyApplication extends Application {
 					Course course = query.find().get(0);
 
 					// 获取星期几第几节课
-					AVRelation<CourseDetialTime> relation = course
-							.getDetailTime();
-					List<CourseDetialTime> times = (List<CourseDetialTime>) relation
-							.getQuery().find();
+					AVRelation<CourseDetialTime> relation = course.getDetailTime();
+					List<CourseDetialTime> times = (List<CourseDetialTime>) relation.getQuery().find();
 
 					// 获取总周数
 					int totalWeeks = (Integer) course.getTotalWeeks();
@@ -122,17 +125,14 @@ public class MyApplication extends Application {
 							item.setCourseId(course.getObjectId());
 							item.setWeek(i);
 							item.setDayOfWeek(courseDetialTime.getDayOfWeek());
-							item.setCourseIndexOfDay(courseDetialTime
-									.getIndexOfDay());
-							item.setDate(DateUtils.getDateString(
-									course.getInitDate(),
-									i - 1,
+							item.setCourseIndexOfDay(courseDetialTime.getIndexOfDay());
+							item.setDate(DateUtils.getDateString(course.getInitDate(), i - 1,
 									(Integer) courseDetialTime.getDayOfWeek() - 2));
 
 							item.save();
-							LogUtils.Log_debug(tag, "成功创建第 " + create_record
-									+ " 条考勤记录预览项");
+							LogUtils.Log_debug(tag, "成功创建第 " + create_record + " 条考勤记录预览项");
 							create_record++;
+
 						}
 
 					}
@@ -153,6 +153,97 @@ public class MyApplication extends Application {
 
 	}
 
+	/**
+	 * 创建一门课程的所有学生考勤记录
+	 * 
+	 * @param courseName
+	 */
+	public void createAllCheckItemDataByCourseName(final String courseName) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				AVQuery<Course> query = AVObject.getQuery(Course.class);
+				query.whereEqualTo("name", courseName);
+
+				try {
+					int create_record = 1;
+					Course course = query.find().get(0);
+
+					// 获取星期几第几节课
+					AVRelation<CourseDetialTime> relation = course.getDetailTime();
+					List<CourseDetialTime> times = (List<CourseDetialTime>) relation.getQuery().find();
+
+					// 获取总周数
+					int totalWeeks = (Integer) course.getTotalWeeks();
+					course.setInitDate("2016-02-29");
+					course.save();
+					LogUtils.Log_debug(tag, "初始化上课日期：" + course.getInitDate());
+
+					for (int i = 1; i <= totalWeeks; i++) {
+						for (CourseDetialTime courseDetialTime : times) {
+
+							// CheckItemPreview item = new CheckItemPreview();
+							// item.setCourseId(course.getObjectId());
+							// item.setWeek(i);
+							// item.setDayOfWeek(courseDetialTime.getDayOfWeek());
+							// item.setCourseIndexOfDay(courseDetialTime.getIndexOfDay());
+							// item.setDate(DateUtils.getDateString(course.getInitDate(),
+							// i - 1,
+							// (Integer) courseDetialTime.getDayOfWeek() - 2));
+							//
+							// item.save();
+							// LogUtils.Log_debug(tag, "成功创建第 " + create_record
+							// + " 条考勤记录预览项");
+							// create_record++;
+
+							// 创建对应的学生考勤记录 CheckItem
+
+							// 查询选修了该门课程的所有学生
+							List<StudentToCourse> stuToCor = AVObject.getQuery(StudentToCourse.class)
+									.whereEqualTo("courseId", course.getObjectId()).find();
+							int j = 1;
+							for (StudentToCourse studentToCourse : stuToCor) {
+								// Student stu =
+								// AVObject.getQuery(Student.class)
+								// .whereEqualTo("xuehao",
+								// studentToCourse.getXuehao()).find().get(0);
+								AVQuery<Student> query2 = AVObject.getQuery(Student.class);
+								query2.whereEqualTo("xuehao", studentToCourse.getXuehao());
+								Student stu = query2.find().get(0);
+								CheckItem check = new CheckItem();
+								check.setStuXueHao(studentToCourse.getXuehao());
+								check.setStuName(stu.getName());
+								check.setCourseId(course.getObjectId());
+								check.setWeek(i);
+								check.setDayOfWeek(courseDetialTime.getDayOfWeek());
+								check.setIndexOfDay(courseDetialTime.getIndexOfDay());
+								// 课程 id 和 日期 和 第几节 唯一确定一条 CheckItemPreview 记录
+								CheckItemPreview item = AVObject.getQuery(CheckItemPreview.class)
+										.whereEqualTo("courseId", course.getObjectId())
+										.whereEqualTo("date",
+												DateUtils.getDateString(course.getInitDate(), i - 1,
+														courseDetialTime.getDayOfWeek().intValue() - 2))
+										.whereEqualTo("course_index_of_day", courseDetialTime.getIndexOfDay()).find()
+										.get(0);
+								check.setCheckItemPreviewId(item.getObjectId());
+								check.save();
+								LogUtils.Log_debug(tag, "成功创建第 " + j + " 条考勤记录");
+								j++;
+							}
+						}
+
+					}
+
+				} catch (AVException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
+	}
+
 	public MyApplication getContext() {
 		return mContext;
 	}
@@ -166,13 +257,13 @@ public class MyApplication extends Application {
 		AVUser.alwaysUseSubUserClass(MyUser.class);
 		AVObject.registerSubclass(CheckItem.class);
 		AVObject.registerSubclass(Course.class);
+		AVObject.registerSubclass(Student.class);
 		AVObject.registerSubclass(CourseDetialTime.class);
 		AVObject.registerSubclass(CheckItemPreview.class);
 		AVObject.registerSubclass(StudentToCourse.class);
 
 		// 初始化参数依次为 this, AppId, AppKey
-		AVOSCloud.initialize(this, "xFY1tb9f2039kf2VucpsRDva-gzGzoHsz",
-				"f428q4rbkKRUsrhXHtXghQw6");
+		AVOSCloud.initialize(this, "xFY1tb9f2039kf2VucpsRDva-gzGzoHsz", "f428q4rbkKRUsrhXHtXghQw6");
 
 		/*
 		 * // 测试 SDK 是否正常工作的代码 AVObject testObject = new AVObject("TestObject");
