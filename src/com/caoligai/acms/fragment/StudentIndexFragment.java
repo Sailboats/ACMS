@@ -122,7 +122,7 @@ public class StudentIndexFragment extends Fragment {
 						// 检查是否已经进行签到
 						CheckItem item = CheckItem.hasChecked(course, mUser.getStudentXueHao());
 
-						if (item != null) {
+						if (!item.getIsAbsent().booleanValue()) {
 							// 已经签到过
 							isCheck = true;
 							Message msg = mHandler.obtainMessage();

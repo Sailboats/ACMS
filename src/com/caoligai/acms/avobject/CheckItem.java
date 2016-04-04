@@ -1,5 +1,6 @@
 package com.caoligai.acms.avobject;
 
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 import com.avos.avoscloud.AVClassName;
@@ -128,33 +129,38 @@ public class CheckItem extends AVObject {
 	 * @param course
 	 * @param mUser
 	 * @return 成功，返回 ObjectId;失败，返回 null
+	 * 
+	 *         修改:见 hasChecked()
 	 */
 	public static String Check(Course course, MyUser mUser) {
 
-		CheckItem item = new CheckItem();
-		CheckItemPreview preView = CheckItemPreview.getCheckItemPreviewByCourse(course);
+		CheckItemPreview preView = CheckItemPreview
+				.getCheckItemPreviewByCourse(course);
 		CheckResult checkResult = DateUtils.getCheckResult();
-
-		item.setStuXueHao(mUser.getStudentXueHao());
-		item.setStuName(mUser.getStudentName());
-		item.setIsNormal(checkResult.getCheckMode() == 1 ? true : false);
-		item.setIsLate(checkResult.getCheckMode() == 2 ? true : false);
-		item.setIsAbsent(checkResult.getCheckMode() == 3 ? true : false);
-		item.setIsLeave(checkResult.getCheckMode() == 4 ? true : false);
-		item.setCourseId(course.getObjectId());
-		item.setWeek(preView.getWeek());
-		item.setDayOfWeek(preView.getDayOfWeek());
-		item.setIndexOfDay(preView.getCourseIndexOfDay());
-		item.setCheckItemPreviewId(preView.getObjectId());
-
+		CheckItem item;
 		try {
-			item.save();
+			item = AVObject.getQuery(CheckItem.class)
+					.whereEqualTo("stu_xuehao", mUser.getStudentXueHao())
+					.whereEqualTo("checkItemPreviewId", preView.getObjectId())
+					.find().get(0);
+			// item.setStuXueHao(mUser.getStudentXueHao());
+			// item.setStuName(mUser.getStudentName());
+			item.setIsNormal(checkResult.getCheckMode() == 1 ? true : false);
+			item.setIsLate(checkResult.getCheckMode() == 2 ? true : false);
+			item.setIsAbsent(checkResult.getCheckMode() == 3 ? true : false);
+			item.setIsLeave(checkResult.getCheckMode() == 4 ? true : false);
+			// item.setCourseId(course.getObjectId());
+			// item.setWeek(preView.getWeek());
+			// item.setDayOfWeek(preView.getDayOfWeek());
+			// item.setIndexOfDay(preView.getCourseIndexOfDay());
+			// item.setCheckItemPreviewId(preView.getObjectId());
 
+			item.save();
 			preView.AddOneCount(checkResult.getCheckMode());
 
 			return item.getObjectId();
-		} catch (AVException e) {
-			e.printStackTrace();
+		} catch (AVException e1) {
+			e1.printStackTrace();
 		}
 
 		return null;
@@ -165,22 +171,27 @@ public class CheckItem extends AVObject {
 	 * CheckItemPreview 的 id ，并且 xuehao 等于学生学号，说明该学生已经进行过签到
 	 * 
 	 * @param course
-	 * @return
+	 * @return 修改：由于修改数据库设计，由原来的签到时创建一条 CheckItem 记录修改为一开始就根据所选课程的上课时间信息创建好所有的
+	 *         CheckItem 记录，所以 判断是否已经进行签到的逻辑也修改，修改如下： 系统创建的 CheckItem 记录的 absent
+	 *         字段默认为 true，签到过后将 absent 改为 false，并且将 late,normal,leave 其中一个设置为
+	 *         true
 	 */
 	public static CheckItem hasChecked(Course course, String xuehao) {
 		// 首先获取想要进行签到的 CheckItemPreview 的 id
-		CheckItemPreview preItem = CheckItemPreview.getCheckItemPreviewByCourse(course);
+		CheckItemPreview preItem = CheckItemPreview
+				.getCheckItemPreviewByCourse(course);
 		String itemId = preItem.getObjectId();
 
 		AVQuery<CheckItem> query = AVObject.getQuery(CheckItem.class);
 		query.whereEqualTo("checkItemPreviewId", itemId);
 		query.whereEqualTo("stu_xuehao", xuehao);
 		try {
-			List<CheckItem> result = query.find();
-			if (result.size() == 1) {
-				// 已经进行签到
-				return result.get(0);
-			}
+			CheckItem result = query.find().get(0);
+			return result;
+			// if (!result.getIsAbsent().booleanValue()) {
+			// // 已经进行签到
+			// return result;
+			// }
 		} catch (AVException e) {
 			e.printStackTrace();
 		}
