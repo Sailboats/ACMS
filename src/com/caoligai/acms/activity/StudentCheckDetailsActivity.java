@@ -1,8 +1,13 @@
 package com.caoligai.acms.activity;
 
+import java.util.List;
+
+import android.os.Handler;
+
 import com.caoligai.acms.BaseActivity;
 import com.caoligai.acms.R;
 import com.caoligai.acms.Setting;
+import com.caoligai.acms.avobject.CheckItem;
 
 /**
  * @author Noodle
@@ -17,6 +22,8 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 	 * CheckItemPreviewId
 	 */
 	private String preId;
+	
+	private List<CheckItem> result;
 
 	@Override
 	protected int getLayoutId() {
@@ -31,13 +38,25 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 	@Override
 	protected void initData() {
 		preId = getIntent().getStringExtra(Setting.CHECKITEMPREVIEW_ID);
-		// 首先，根据 checkItemPreviewId 查询出 包含该 id 的 CheckItem 列表
-		// 其次，根据 checkItemPreviewId 查询出的单个 checkItemPreview 的 courseId 查询 StudentToCourse,找出选修了当门课的所有学生 xuehao
+		// 根据 checkItemPreviewId 查询出 包含该 id 的 CheckItem 列表
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				result = CheckItem.getAllCheckItemByCheckItemPreviewId(preId);
+			}
+		}).start();
 	}
 
 	@Override
 	protected void initListener() {
 
 	}
+	
+	Handler mHandler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			
+		};
+	};
 
 }

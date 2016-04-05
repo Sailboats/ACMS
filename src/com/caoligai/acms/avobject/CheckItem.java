@@ -170,11 +170,12 @@ public class CheckItem extends AVObject {
 	 * 检查当前时刻是否已经进行过签到,如果存在一个 CheckItem 记录，它的 checkItemPreviewId 字段等于要进行签到的
 	 * CheckItemPreview 的 id ，并且 xuehao 等于学生学号，说明该学生已经进行过签到
 	 * 
+	 * 修改：由于修改数据库设计，由原来的签到时创建一条 CheckItem 记录修改为一开始就根据所选课程的上课时间信息创建好所有的 CheckItem
+	 * 记录，所以 判断是否已经进行签到的逻辑也修改，修改如下： 系统创建的 CheckItem 记录的 absent 字段默认为 true，签到过后将
+	 * absent 改为 false，并且将 late,normal,leave 其中一个设置为 true
+	 * 
 	 * @param course
-	 * @return 修改：由于修改数据库设计，由原来的签到时创建一条 CheckItem 记录修改为一开始就根据所选课程的上课时间信息创建好所有的
-	 *         CheckItem 记录，所以 判断是否已经进行签到的逻辑也修改，修改如下： 系统创建的 CheckItem 记录的 absent
-	 *         字段默认为 true，签到过后将 absent 改为 false，并且将 late,normal,leave 其中一个设置为
-	 *         true
+	 * @return
 	 */
 	public static CheckItem hasChecked(Course course, String xuehao) {
 		// 首先获取想要进行签到的 CheckItemPreview 的 id
@@ -192,6 +193,25 @@ public class CheckItem extends AVObject {
 			// // 已经进行签到
 			// return result;
 			// }
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/**
+	 * 根据 CheckItemPreviewId 查询所有 CheckItem 记录
+	 * 
+	 * @param preViewId
+	 * @return
+	 */
+	public static List<CheckItem> getAllCheckItemByCheckItemPreviewId(
+			String preViewId) {
+
+		try {
+			return AVObject.getQuery(CheckItem.class)
+					.whereEqualTo("checkItemPreviewId", preViewId).find();
 		} catch (AVException e) {
 			e.printStackTrace();
 		}
