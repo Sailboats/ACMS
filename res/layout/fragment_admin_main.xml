@@ -79,7 +79,7 @@
             <TextView
                 style="@style/normal_text.text_2"
                 android:layout_marginRight="5dp"
-                android:text="人"
+                android:text="人次"
                 android:textSize="20px" />
         </LinearLayout>
 
@@ -105,7 +105,7 @@
             <TextView
                 style="@style/normal_text.text_2"
                 android:layout_marginRight="5dp"
-                android:text="人"
+                android:text="人次"
                 android:textSize="20px" />
         </LinearLayout>
 
@@ -132,7 +132,7 @@
             <TextView
                 style="@style/normal_text.text_2"
                 android:layout_marginRight="5dp"
-                android:text="人"
+                android:text="人次"
                 android:textSize="20px" />
         </LinearLayout>
     </LinearLayout>
@@ -183,7 +183,7 @@
                     android:singleLine="true"
                     android:text="50"
                     android:textColor="#ffff00"
-                    android:textSize="100px" />
+                    android:textSize="80px" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -237,7 +237,7 @@
                     android:singleLine="true"
                     android:text="70"
                     android:textColor="#ff0000"
-                    android:textSize="100px" />
+                    android:textSize="80px" />
 
                 <TextView
                     android:layout_width="wrap_content"

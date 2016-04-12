@@ -149,7 +149,7 @@ public class Course extends AVObject {
 			times = time_relation.getQuery().find();
 
 			for (CourseDetialTime time : times) {
-				LogUtils.Log_debug(tag, "详细时间：星期 " + time.getDayOfWeek() + " 第 " + time.getIndexOfDay() + " 节课");
+//				LogUtils.Log_debug(tag, "详细时间：星期 " + time.getDayOfWeek() + " 第 " + time.getIndexOfDay() + " 节课");
 				if (time.getDayOfWeek().intValue() == cal_now.get(Calendar.DAY_OF_WEEK)
 						&& cal_now.after(DateUtils.getBeginCheckTime(time.getIndexOfDay().intValue()))
 						&& cal_now.before(DateUtils.getEndCheckTime(time.getIndexOfDay().intValue()))) {

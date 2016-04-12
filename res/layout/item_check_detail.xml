@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@color/bg_white"
-    android:gravity="center_vertical"
     android:orientation="vertical" >
 
     <View
@@ -13,7 +12,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="79dp"
+        android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
@@ -44,14 +44,15 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|right"
             android:orientation="horizontal" >
 
             <LinearLayout
                 android:id="@+id/ll_late"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:gravity="center" >
 
                 <ImageView
                     android:id="@+id/iv_late"
@@ -66,14 +67,16 @@
                     android:layout_marginLeft="10dp"
                     android:text="--"
                     android:textColor="@color/font_black"
-                    android:textSize="32px" />
+                    android:textSize="32px"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_normal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:gravity="center" >
 
                 <ImageView
                     android:id="@+id/iv_normal"
@@ -88,14 +91,16 @@
                     android:layout_marginLeft="10dp"
                     android:text="--"
                     android:textColor="@color/font_black"
-                    android:textSize="32px" />
+                    android:textSize="32px"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_absent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:gravity="center" >
 
                 <ImageView
                     android:id="@+id/iv_absent"
@@ -110,14 +115,16 @@
                     android:layout_marginLeft="10dp"
                     android:text="--"
                     android:textColor="@color/font_black"
-                    android:textSize="32px" />
+                    android:textSize="32px"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_leave"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                android:layout_weight="1"
+                android:gravity="center" >
 
                 <ImageView
                     android:id="@+id/iv_leave"
@@ -132,7 +139,8 @@
                     android:layout_marginLeft="10dp"
                     android:text="--"
                     android:textColor="@color/font_black"
-                    android:textSize="32px" />
+                    android:textSize="32px"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -155,5 +163,10 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/border" />
 
 </LinearLayout>

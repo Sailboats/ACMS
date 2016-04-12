@@ -234,6 +234,10 @@ public class MyApplication extends Application {
 										.getDayOfWeek());
 								check.setIndexOfDay(courseDetialTime
 										.getIndexOfDay());
+								check.setDate(DateUtils.getDateString(course
+										.getInitDate(), i - 1, courseDetialTime
+										.getDayOfWeek().intValue() - 2));
+
 								// 课程 id 和 日期 和 第几节 唯一确定一条 CheckItemPreview 记录
 								CheckItemPreview item = AVObject
 										.getQuery(CheckItemPreview.class)

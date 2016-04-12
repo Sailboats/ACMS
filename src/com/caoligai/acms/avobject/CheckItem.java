@@ -123,6 +123,15 @@ public class CheckItem extends AVObject {
 		put("checkItemPreviewId", id);
 	}
 
+	// 日期
+	public String getDate() {
+		return getString("date");
+	}
+
+	public void setDate(String date) {
+		put("date", date);
+	}
+
 	/**
 	 * 学生签到。 新建一条 CheckItem 记录，并在对应的考勤预览项（CheckItemPreview）中增加一个考勤数据（准时、迟到或者缺席）
 	 * 
@@ -208,15 +217,21 @@ public class CheckItem extends AVObject {
 	 */
 	public static List<CheckItem> getAllCheckItemByCheckItemPreviewId(
 			String preViewId) {
+		List<CheckItem> result = null;
 
 		try {
-			return AVObject.getQuery(CheckItem.class)
-					.whereEqualTo("checkItemPreviewId", preViewId).find();
+			AVQuery<CheckItem> query = AVObject.getQuery(CheckItem.class);
+
+			query.whereEqualTo("checkItemPreviewId", preViewId);
+			query.setLimit(500);
+
+			result = query.find();
+
 		} catch (AVException e) {
 			e.printStackTrace();
 		}
 
-		return null;
+		return result;
 	}
 
 }

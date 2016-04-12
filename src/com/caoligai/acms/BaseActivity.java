@@ -67,11 +67,12 @@ public abstract class BaseActivity extends FragmentActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (!isTopActivity) {
+		if (!isTopActivity && keyCode == KeyEvent.KEYCODE_BACK) {
 			finish();
 			return false;
 		}
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_DOWN) {
 			if ((System.currentTimeMillis() - exitTime) > 2000) {
 				// Toast.makeText(getApplicationContext(), "再按一次退出程序",
 				// Toast.LENGTH_SHORT).show();

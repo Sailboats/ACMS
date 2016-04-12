@@ -30,14 +30,25 @@ public class DateUtils {
 	 */
 	public static String getDateString(Calendar calendar, int offset) {
 
-		StringBuilder sb = new StringBuilder();
+		// StringBuilder sb = new StringBuilder();
+		//
+		// sb.append(calendar.get(Calendar.YEAR))
+		// .append("-")
+		// .append(calendar.get(Calendar.MONTH) + 1 >= 10 ? calendar
+		// .get(Calendar.MONTH) + 1 : "0"
+		// + calendar.get(Calendar.MONTH) + 1)
+		// .append("-")
+		// .append(calendar.get(Calendar.DAY_OF_MONTH) >= 10 ? calendar
+		// .get(Calendar.DAY_OF_MONTH) : "0"
+		// + calendar.get(Calendar.DAY_OF_MONTH))
+		// .append(" " + getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)));
 
-		sb.append(calendar.get(Calendar.YEAR)).append("-")
-				.append(calendar.get(Calendar.MONTH) + 1).append("-")
-				.append(calendar.get(Calendar.DAY_OF_MONTH))
-				.append(" " + getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)));
+		calendar.add(Calendar.DATE, offset);
 
-		return sb.toString();
+		return new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime())
+				+ " " + getDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
+
+		// return sb.toString();
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package com.caoligai.acms.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.caoligai.acms.R;
@@ -8,6 +9,7 @@ import com.caoligai.acms.avobject.CheckItem;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +22,8 @@ import android.widget.TextView;
  */
 public class CheckDetailsAdapter extends BaseListViewAdapter {
 
+	private List<CheckItem> opt_queen = new ArrayList<CheckItem>(); // 待操作对象队列
+
 	public CheckDetailsAdapter(List<Object> data, Context context) {
 		super(data, context);
 	}
@@ -27,7 +31,7 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 	@Override
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
 
-		ViewHolder viewHolder;
+		final ViewHolder viewHolder;
 		if (null == arg1) {
 
 			viewHolder = new ViewHolder();
@@ -50,20 +54,114 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 			viewHolder = (ViewHolder) arg1.getTag();
 		}
 
-		CheckItem item = (CheckItem) getmData().get(arg0);
+		final CheckItem item = (CheckItem) getmData().get(arg0);
 
 		viewHolder.tv_name.setText(item.getStuName());
-		viewHolder.tv_name.setText(item.getStuXueHao());
+		viewHolder.tv_xuehao.setText(item.getStuXueHao());
+
+		viewHolder.iv_normal.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				viewHolder.iv_normal.setAlpha(1f);
+				viewHolder.iv_late.setAlpha(0.1f);
+				viewHolder.iv_leave.setAlpha(0.1f);
+				viewHolder.iv_absent.setAlpha(0.1f);
+
+				item.setIsNormal(Boolean.valueOf(true));
+				item.setIsLate(Boolean.valueOf(false));
+				item.setIsLeave(Boolean.valueOf(false));
+				item.setIsAbsent(Boolean.valueOf(false));
+				opt_queen.add(item);
+			}
+		});
+		viewHolder.iv_late.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				viewHolder.iv_normal.setAlpha(0.1f);
+				viewHolder.iv_late.setAlpha(1f);
+				viewHolder.iv_leave.setAlpha(0.1f);
+				viewHolder.iv_absent.setAlpha(0.1f);
+
+				item.setIsNormal(Boolean.valueOf(false));
+				item.setIsLate(Boolean.valueOf(true));
+				item.setIsLeave(Boolean.valueOf(false));
+				item.setIsAbsent(Boolean.valueOf(false));
+				opt_queen.add(item);
+			}
+		});
+		viewHolder.iv_leave.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				viewHolder.iv_normal.setAlpha(0.1f);
+				viewHolder.iv_late.setAlpha(0.1f);
+				viewHolder.iv_leave.setAlpha(1f);
+				viewHolder.iv_absent.setAlpha(0.1f);
+
+				item.setIsNormal(Boolean.valueOf(false));
+				item.setIsLate(Boolean.valueOf(false));
+				item.setIsLeave(Boolean.valueOf(true));
+				item.setIsAbsent(Boolean.valueOf(false));
+				opt_queen.add(item);
+			}
+		});
+		viewHolder.iv_absent.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				viewHolder.iv_normal.setAlpha(0.1f);
+				viewHolder.iv_late.setAlpha(0.1f);
+				viewHolder.iv_leave.setAlpha(0.1f);
+				viewHolder.iv_absent.setAlpha(1f);
+
+				item.setIsNormal(Boolean.valueOf(false));
+				item.setIsLate(Boolean.valueOf(false));
+				item.setIsLeave(Boolean.valueOf(false));
+				item.setIsAbsent(Boolean.valueOf(true));
+				opt_queen.add(item);
+			}
+		});
 
 		if (item.getIsNormal().booleanValue()) {
 			viewHolder.iv_normal.setAlpha(1f);
+			viewHolder.iv_normal.setOnClickListener(null);
 			viewHolder.iv_late.setAlpha(0.1f);
 			viewHolder.iv_leave.setAlpha(0.1f);
 			viewHolder.iv_absent.setAlpha(0.1f);
 		}
-		// TODO
+		if (item.getIsLate().booleanValue()) {
+			viewHolder.iv_normal.setAlpha(0.1f);
+			viewHolder.iv_late.setAlpha(1f);
+			viewHolder.iv_late.setOnClickListener(null);
+			viewHolder.iv_leave.setAlpha(0.1f);
+			viewHolder.iv_absent.setAlpha(0.1f);
+		}
+		if (item.getIsLeave().booleanValue()) {
+			viewHolder.iv_normal.setAlpha(0.1f);
+			viewHolder.iv_late.setAlpha(0.1f);
+			viewHolder.iv_leave.setAlpha(1f);
+			viewHolder.iv_leave.setOnClickListener(null);
+			viewHolder.iv_absent.setAlpha(0.1f);
+		}
+		if (item.getIsAbsent().booleanValue()) {
+			viewHolder.iv_normal.setAlpha(0.1f);
+			viewHolder.iv_late.setAlpha(0.1f);
+			viewHolder.iv_leave.setAlpha(0.1f);
+			viewHolder.iv_absent.setAlpha(1f);
+			viewHolder.iv_absent.setOnClickListener(null);
+		}
 
-		return null;
+		return arg1;
+	}
+
+	public List<CheckItem> getOpt_queen() {
+		return opt_queen;
+	}
+
+	public void clearOpt_queen() {
+		opt_queen.clear();
 	}
 
 	static class ViewHolder {

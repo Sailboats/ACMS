@@ -5,6 +5,7 @@ package com.caoligai.acms.fragment;
 
 import com.caoligai.acms.R;
 import com.caoligai.acms.activity.IndexListViewActivity;
+import com.caoligai.acms.activity.SearchActivity;
 import com.caoligai.acms.utils.DialogUtils;
 
 import android.app.AlertDialog;
@@ -39,8 +40,10 @@ public class AdminCheckFragment extends Fragment implements OnClickListener {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_admin_check, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_admin_check,
+				container, false);
 
 		initView(rootView);
 		initListener();
@@ -49,7 +52,8 @@ public class AdminCheckFragment extends Fragment implements OnClickListener {
 
 	private void initView(View rootView) {
 
-		ll_insertandupdate = (LinearLayout) rootView.findViewById(R.id.ll_insertandupdate);
+		ll_insertandupdate = (LinearLayout) rootView
+				.findViewById(R.id.ll_insertandupdate);
 		ll_search = (LinearLayout) rootView.findViewById(R.id.ll_search);
 
 	}
@@ -84,7 +88,7 @@ public class AdminCheckFragment extends Fragment implements OnClickListener {
 			startActivity(new Intent(getActivity(), IndexListViewActivity.class));
 			break;
 		case R.id.ll_search:
-			
+			startActivity(new Intent(getActivity(), SearchActivity.class));
 			break;
 
 		default:

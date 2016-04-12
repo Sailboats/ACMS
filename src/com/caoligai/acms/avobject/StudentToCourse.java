@@ -24,4 +24,12 @@ public class StudentToCourse extends AVObject {
 	public void setXuehao(String xuehao) {
 		put("student_xuehao", xuehao);
 	}
+
+	public String getCourseName() {
+		return getString("courseName");
+	}
+
+	public void setCourseName(String name) {
+		put("courseName", name);
+	}
 }
