@@ -214,7 +214,6 @@ public class MyApplication extends Application {
 									.getQuery(StudentToCourse.class)
 									.whereEqualTo("courseId",
 											course.getObjectId()).find();
-							int j = 1;
 							for (StudentToCourse studentToCourse : stuToCor) {
 								// Student stu =
 								// AVObject.getQuery(Student.class)
@@ -257,8 +256,8 @@ public class MyApplication extends Application {
 										.find().get(0);
 								check.setCheckItemPreviewId(item.getObjectId());
 								check.save();
-								LogUtils.Log_debug(tag, "成功创建第 " + j + " 条考勤记录");
-								j++;
+								LogUtils.Log_debug(tag, "成功创建第 "
+										+ create_record++ + " 条考勤记录");
 							}
 						}
 

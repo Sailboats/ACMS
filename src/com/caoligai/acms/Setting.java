@@ -14,6 +14,8 @@ public class Setting {
 	public static final String XUEHAO = "xuehao";
 	public static final String COURSE_NAME = "course_name";
 
+	public static final String USER_TYPE = "user_type";
+
 	// 上课/下课时间
 	public static final int COURSE_INDEX_1_BEGIN_HOUR = 7;
 	public static final int COURSE_INDEX_2_BEGIN_HOUR = 9;

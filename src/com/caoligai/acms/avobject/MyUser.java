@@ -23,12 +23,21 @@ public class MyUser extends AVUser {
 	}
 
 	// 学生姓名，当用户类型为 2 时，该字段为学生的姓名
-	public String getStudentName() {
-		return getString("stu_name");
+	public String getName() {
+		return getString("name");
 	}
 
 	public void setStudentName(String name) {
-		put("stu_name", name);
+		put("name", name);
+	}
+
+	// 教师id，当用户类型为1时，该字段为教师id
+	public String getTeacherId() {
+		return getString("teacherId");
+	}
+
+	public void setTeacherId(String teacherId) {
+		put("teacherId", teacherId);
 	}
 
 }

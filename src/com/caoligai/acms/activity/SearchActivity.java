@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.caoligai.acms.BaseActivity;
+import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
 import com.caoligai.acms.Setting;
 import com.caoligai.acms.adapter.SearchStudentAdapter;
@@ -222,9 +223,15 @@ public class SearchActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				startActivity(new Intent(SearchActivity.this,
-						StudentAbsentCheckActivity.class).putExtra(
-						Setting.XUEHAO, xuehao).putExtra(Setting.COURSE_NAME,
-						tv_course.getText().toString()));
+						StudentAbsentCheckActivity.class)
+						.putExtra(Setting.XUEHAO, xuehao)
+						.putExtra(Setting.COURSE_NAME,
+								tv_course.getText().toString())
+						.putExtra(
+								Setting.USER_TYPE,
+								((MyApplication) SearchActivity.this
+										.getApplication()).getmUserUtils()
+										.getUserType()));
 			}
 		});
 	}

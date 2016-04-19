@@ -3,10 +3,13 @@
  */
 package com.caoligai.acms.fragment;
 
+import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
+import com.caoligai.acms.Setting;
 import com.caoligai.acms.activity.IndexListViewActivity;
 import com.caoligai.acms.activity.SearchActivity;
 import com.caoligai.acms.utils.DialogUtils;
+import com.caoligai.acms.utils.LogUtils;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -85,7 +88,36 @@ public class AdminCheckFragment extends Fragment implements OnClickListener {
 			// }
 			// }
 			// }, "按课程", "按学生");
-			startActivity(new Intent(getActivity(), IndexListViewActivity.class));
+
+			LogUtils.Log_debug(tag, "当前用户类型为："
+					+ ((MyApplication) getActivity().getApplication())
+							.getmUserUtils().getUserType());
+
+			// 管理员
+			if (((MyApplication) getActivity().getApplication())
+					.getmUserUtils().getUserType() == 0) {
+				startActivity(new Intent(getActivity(),
+						IndexListViewActivity.class).putExtra(
+						Setting.USER_TYPE, ((MyApplication) getActivity()
+								.getApplication()).getmUserUtils()
+								.getUserType()));
+			}
+			// 教师
+			if (((MyApplication) getActivity().getApplication())
+					.getmUserUtils().getUserType() == 1) {
+				startActivity(new Intent(getActivity(),
+						IndexListViewActivity.class).putExtra(
+						Setting.USER_TYPE, ((MyApplication) getActivity()
+								.getApplication()).getmUserUtils()
+								.getUserType()));
+			}
+			// 学生
+			if (((MyApplication) getActivity().getApplication())
+					.getmUserUtils().getUserType() == 2) {
+				Toast.makeText(getActivity(), "你没有该权限", Toast.LENGTH_SHORT)
+						.show();
+			}
+
 			break;
 		case R.id.ll_search:
 			startActivity(new Intent(getActivity(), SearchActivity.class));

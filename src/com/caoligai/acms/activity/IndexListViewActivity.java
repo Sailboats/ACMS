@@ -7,9 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 
+import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
+import com.caoligai.acms.Setting;
 import com.caoligai.acms.adapter.ListViewAdapter;
 import com.caoligai.acms.avobject.Course;
+import com.caoligai.acms.avobject.MyUser;
 import com.caoligai.acms.dao.CourseDao;
 import com.caoligai.acms.entity.Person;
 import com.caoligai.acms.utils.StringHelper;
@@ -34,8 +37,9 @@ public class IndexListViewActivity extends Activity {
 	private ListView listView;
 	private TextView tv_show;
 	private ListViewAdapter adapter;
-	private String[] indexStr = { "#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
-			"Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+	private String[] indexStr = { "#", "A", "B", "C", "D", "E", "F", "G", "H",
+			"I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+			"V", "W", "X", "Y", "Z" };
 	private List<Person> persons = null;
 	private List<Person> newPersons = new ArrayList<Person>();
 	private int height;// 字体高度
@@ -56,9 +60,22 @@ public class IndexListViewActivity extends Activity {
 		tv_show = (TextView) findViewById(R.id.tv);
 		tv_show.setVisibility(View.GONE);
 
+		final int user_type = getIntent().getIntExtra(Setting.USER_TYPE, 3);
+
 		new Thread(new Runnable() {
 			public void run() {
-				courses = CourseDao.getAllCourse();
+
+				// 用户类型是教师，查询该教师所教授的课程列表
+				if (user_type == 1) {
+					courses = CourseDao
+							.getAllCourseByTeacherId(((MyUser) ((MyApplication) IndexListViewActivity.this
+									.getApplication()).getmUserUtils()
+									.getmAVUser()).getTeacherId());
+				}
+				// 用户类型是管理员，查询所有课程列表
+				if (user_type == 0) {
+					courses = CourseDao.getAllCourse();
+				}
 
 				Message message = myHandler.obtainMessage();
 				message.obj = courses;
@@ -89,7 +106,8 @@ public class IndexListViewActivity extends Activity {
 		for (int i = 0; i < allNames.length; i++) {
 			if (allNames[i].length() != 1) {
 				for (int j = 0; j < courses.size(); j++) {
-					if (allNames[i].equals(StringHelper.getPingYin(courses.get(j).getName().toString()))) {
+					if (allNames[i].equals(StringHelper.getPingYin(courses
+							.get(j).getName().toString()))) {
 						// Person p = new Person(persons.get(j).getName(),
 						// persons.get(j).getPinYinName());
 						newCourse.add(courses.get(j));
@@ -121,7 +139,8 @@ public class IndexListViewActivity extends Activity {
 		TreeSet<String> set = new TreeSet<String>();
 		// 获取初始化数据源中的首字母，添加到set中
 		for (Course course : courses) {
-			set.add(StringHelper.getPinYinHeadChar(course.getName()).substring(0, 1));
+			set.add(StringHelper.getPinYinHeadChar(course.getName()).substring(
+					0, 1));
 		}
 		// 新数组的长度为原数据加上set的大小
 		String[] names = new String[courses.size() + set.size()];
@@ -133,7 +152,8 @@ public class IndexListViewActivity extends Activity {
 		String[] pinYinNames = new String[courses.size()];
 		for (int j = 0; j < courses.size(); j++) {
 			// persons.get(j).setPinYinName(StringHelper.getPingYin(persons.get(j).getName().toString()));
-			pinYinNames[j] = StringHelper.getPingYin(courses.get(j).getName().toString());
+			pinYinNames[j] = StringHelper.getPingYin(courses.get(j).getName()
+					.toString());
 		}
 		// 将原数据拷贝到新数据中
 		System.arraycopy(pinYinNames, 0, names, set.size(), pinYinNames.length);
@@ -146,7 +166,8 @@ public class IndexListViewActivity extends Activity {
 	 * 绘制索引列表
 	 */
 	public void getIndexView() {
-		LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, height);
+		LinearLayout.LayoutParams params = new LayoutParams(
+				LayoutParams.WRAP_CONTENT, height);
 		for (int i = 0; i < indexStr.length; i++) {
 			final TextView tv = new TextView(this);
 			tv.setLayoutParams(params);
@@ -166,7 +187,8 @@ public class IndexListViewActivity extends Activity {
 						if (selector.containsKey(key)) {
 							int pos = selector.get(key);
 							if (listView.getHeaderViewsCount() > 0) {// 防止ListView有标题栏，本例中没有。
-								listView.setSelectionFromTop(pos + listView.getHeaderViewsCount(), 0);
+								listView.setSelectionFromTop(
+										pos + listView.getHeaderViewsCount(), 0);
 							} else {
 								listView.setSelectionFromTop(pos, 0);// 滑动到第一项
 							}
@@ -176,14 +198,16 @@ public class IndexListViewActivity extends Activity {
 					}
 					switch (event.getAction()) {
 					case MotionEvent.ACTION_DOWN:
-						layoutIndex.setBackgroundColor(Color.parseColor("#606060"));
+						layoutIndex.setBackgroundColor(Color
+								.parseColor("#606060"));
 						break;
 
 					case MotionEvent.ACTION_MOVE:
 
 						break;
 					case MotionEvent.ACTION_UP:
-						layoutIndex.setBackgroundColor(Color.parseColor("#00ffffff"));
+						layoutIndex.setBackgroundColor(Color
+								.parseColor("#00ffffff"));
 						tv_show.setVisibility(View.GONE);
 						break;
 					}
@@ -191,56 +215,6 @@ public class IndexListViewActivity extends Activity {
 				}
 			});
 		}
-	}
-
-	/**
-	 * 设置模拟数据
-	 */
-	private void setData() {
-		persons = new ArrayList<Person>();
-		Person p1 = new Person("耿琦");
-		persons.add(p1);
-		Person p2 = new Person("王宝强");
-		persons.add(p2);
-		Person p3 = new Person("柳岩");
-		persons.add(p3);
-		Person p4 = new Person("文章");
-		persons.add(p4);
-		Person p5 = new Person("马伊琍");
-		persons.add(p5);
-		Person p6 = new Person("李晨");
-		persons.add(p6);
-		Person p7 = new Person("张馨予");
-		persons.add(p7);
-		Person p8 = new Person("韩红");
-		persons.add(p8);
-		Person p9 = new Person("韩寒");
-		persons.add(p9);
-		Person p10 = new Person("丹丹");
-		persons.add(p10);
-		Person p11 = new Person("丹凤眼");
-		persons.add(p11);
-		Person p12 = new Person("哈哈");
-		persons.add(p12);
-		Person p13 = new Person("萌萌");
-		persons.add(p13);
-		Person p14 = new Person("蒙混");
-		persons.add(p14);
-		Person p15 = new Person("烟花");
-		persons.add(p15);
-		Person p16 = new Person("眼黑");
-		persons.add(p16);
-		Person p17 = new Person("许三多");
-		persons.add(p17);
-		Person p18 = new Person("程咬金");
-		persons.add(p18);
-		Person p19 = new Person("程哈哈");
-		persons.add(p19);
-		Person p20 = new Person("爱死你");
-		persons.add(p20);
-		Person p21 = new Person("阿莱");
-		persons.add(p21);
-
 	}
 
 	private Handler myHandler = new Handler() {

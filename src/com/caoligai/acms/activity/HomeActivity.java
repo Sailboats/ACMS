@@ -102,6 +102,15 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 
 		}
 
+		// 用户类型为教师
+		if (((MyApplication) getApplication()).getmUserUtils().getUserType() == 1) {
+
+			list.add(new AdminMainFragment());
+			list.add(new AdminCheckFragment());
+			list.add(new AdminOtherFragment());
+
+		}
+
 		mViewPager.setAdapter(new MyFragmentPagerAdapter(
 				getSupportFragmentManager(), list));
 		mViewPager.setCurrentItem(0);

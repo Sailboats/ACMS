@@ -38,4 +38,20 @@ public class CourseDao {
 		return data;
 	}
 
+	public static List<Course> getAllCourseByTeacherId(String teacherId) {
+
+		List<Course> data = null;
+
+		AVQuery<Course> query = AVObject.getQuery(Course.class).whereEqualTo(
+				"teacherId", teacherId);
+
+		try {
+			data = query.find();
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+
+		return data;
+	}
+
 }

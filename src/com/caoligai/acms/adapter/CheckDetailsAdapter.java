@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.caoligai.acms.R;
 import com.caoligai.acms.avobject.CheckItem;
+import com.caoligai.acms.utils.DateUtils;
+import com.caoligai.acms.utils.StringHelper;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -43,6 +45,12 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 			viewHolder.tv_xuehao = (TextView) arg1.findViewById(R.id.tv_xuehao);
 			viewHolder.iv_normal = (ImageView) arg1
 					.findViewById(R.id.iv_normal);
+			viewHolder.tv_week = (TextView) arg1.findViewById(R.id.tv_week);
+			viewHolder.tv_day_of_week = (TextView) arg1
+					.findViewById(R.id.tv_day_of_week);
+			viewHolder.tv_course_index_of_day = (TextView) arg1
+					.findViewById(R.id.tv_course_index_of_day);
+			viewHolder.tv_date = (TextView) arg1.findViewById(R.id.tv_date);
 			viewHolder.iv_late = (ImageView) arg1.findViewById(R.id.iv_late);
 			viewHolder.iv_leave = (ImageView) arg1.findViewById(R.id.iv_leave);
 			viewHolder.iv_absent = (ImageView) arg1
@@ -58,6 +66,13 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 
 		viewHolder.tv_name.setText(item.getStuName());
 		viewHolder.tv_xuehao.setText(item.getStuXueHao());
+		viewHolder.tv_week.setText(StringHelper.getWeekString(item.getWeek()
+				.intValue()));
+		viewHolder.tv_day_of_week.setText(DateUtils.getDayOfWeek(item
+				.getDayOfWeek().intValue()));
+		viewHolder.tv_course_index_of_day.setText(StringHelper
+				.getCourseIndexString(item.getIndexOfDay().intValue()));
+		viewHolder.tv_date.setText(item.getDate());
 
 		viewHolder.iv_normal.setOnClickListener(new OnClickListener() {
 
@@ -165,7 +180,8 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 	}
 
 	static class ViewHolder {
-		TextView tv_name, tv_xuehao;
+		TextView tv_name, tv_xuehao, tv_week, tv_day_of_week,
+				tv_course_index_of_day, tv_date;
 		ImageView iv_normal, iv_late, iv_leave, iv_absent;
 	}
 

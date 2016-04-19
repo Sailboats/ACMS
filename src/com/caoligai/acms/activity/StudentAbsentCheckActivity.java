@@ -16,6 +16,10 @@ public class StudentAbsentCheckActivity extends StudentCheckDetailsActivity {
 		final String xuehao = getIntent().getStringExtra(Setting.XUEHAO);
 		final String courseName = getIntent().getStringExtra(
 				Setting.COURSE_NAME);
+		int user_type = getIntent().getIntExtra(Setting.USER_TYPE, 3);
+		if (user_type == 2) {
+			showOrHideEditLayout(false);
+		}
 
 		new Thread(new Runnable() {
 

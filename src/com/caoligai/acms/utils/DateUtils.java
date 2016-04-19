@@ -317,4 +317,15 @@ public class DateUtils {
 
 		return result;
 	}
+
+	/**
+	 * 根据当前时间返回节数，例如：当前时间是 14:48,则返回 3,即第 3 节课（第5、6节课）
+	 * 
+	 * @return
+	 */
+	public static int getIndexOfDayByNow() {
+
+		return DateUtils.getCheckResult().getCourse_index_of_day();
+
+	}
 }

@@ -181,7 +181,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="50"
+                    android:text="0"
                     android:textColor="#ffff00"
                     android:textSize="80px" />
 
@@ -208,7 +208,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="200"
+                    android:text="0"
                     android:textColor="#00ff00"
                     android:textSize="150px" />
 
@@ -235,7 +235,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="70"
+                    android:text="0"
                     android:textColor="#ff0000"
                     android:textSize="80px" />
 
@@ -322,6 +322,26 @@
             android:text="--------"
             android:textColor="@color/font_date"
             android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_tips_no_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="当前暂无正在考勤课程"
+            android:textColor="@color/font_normal"
+            android:textSize="26px"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_details"
+            android:layout_width="48px"
+            android:layout_height="48px"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_keyboard_arrow_right_black_48dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_nextday"

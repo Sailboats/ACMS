@@ -5,6 +5,7 @@ import java.util.List;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,11 +30,16 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 	private static final int UPDATE_DATA = 1;
 
 	/**
+	 * “提交”“取消”按钮
+	 */
+	private LinearLayout ll_edit;
+
+	/**
 	 * CheckItemPreviewId
 	 */
 	private String preId;
 
-	private List<CheckItem> result;
+	protected List<CheckItem> result;
 
 	private ListView lv_list;
 	private CheckDetailsAdapter mAdapter;
@@ -49,10 +55,23 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 	protected void initView() {
 		setIsTopActivity(false);
 
+		ll_edit = (LinearLayout) findViewById(R.id.ll_edit);
+
 		lv_list = (ListView) findViewById(R.id.lv_list);
 
 		tv_summit = (TextView) findViewById(R.id.tv_summit);
 		tv_cancel = (TextView) findViewById(R.id.tv_cancel);
+	}
+
+	/**
+	 * 是否显示“提交、取消”按钮，是否允许修改
+	 * 
+	 * @param isShow
+	 */
+	protected void showOrHideEditLayout(boolean isShow) {
+		if (!isShow) {
+			ll_edit.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -106,6 +125,7 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 			public void onClick(View arg0) {
 				mAdapter.clearOpt_queen();
 				LogUtils.Log_debug(tag, "清理待操作队列");
+				finish();
 			}
 		});
 

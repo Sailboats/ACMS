@@ -234,4 +234,115 @@ public class CheckItem extends AVObject {
 		return result;
 	}
 
+	/**
+	 * 根据课程名获取准时人数,courseId 和 date 和 index_of_day 唯一确定一条 CheckItem 记录
+	 * 
+	 * @param courseId
+	 * @return
+	 */
+	public static int getNormalCountByCourseId(String courseId) {
+
+		try {
+			return AVObject
+					.getQuery(CheckItem.class)
+					.whereEqualTo("courseId", courseId)
+					.whereEqualTo("date", DateUtils.getDateString())
+					.whereEqualTo("index_of_day",
+							DateUtils.getIndexOfDayByNow())
+					.whereEqualTo("normal", true).count();
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	/**
+	 * 根据课程名获取迟到人数,courseId 和 date 和 index_of_day 唯一确定一条 CheckItem 记录
+	 * 
+	 * @param courseId
+	 * @return
+	 */
+	public static int getLateCountByCourseId(String courseId) {
+
+		try {
+			return AVObject
+					.getQuery(CheckItem.class)
+					.whereEqualTo("courseId", courseId)
+					.whereEqualTo("date", DateUtils.getDateString())
+					.whereEqualTo("index_of_day",
+							DateUtils.getIndexOfDayByNow())
+					.whereEqualTo("late", true).count();
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	/**
+	 * 根据课程名获取缺席人数,courseId 和 date 和 index_of_day 唯一确定一条 CheckItem 记录
+	 * 
+	 * @param courseId
+	 * @return
+	 */
+	public static int getAbsentCountByCourseId(String courseId) {
+
+		try {
+			return AVObject
+					.getQuery(CheckItem.class)
+					.whereEqualTo("courseId", courseId)
+					.whereEqualTo("date", DateUtils.getDateString())
+					.whereEqualTo("index_of_day",
+							DateUtils.getIndexOfDayByNow())
+					.whereEqualTo("absent", true).count();
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	/**
+	 * 根据课程名获取人数,courseId 和 date 和 index_of_day 唯一确定一条 CheckItem 记录
+	 * 
+	 * @param courseId
+	 * @return
+	 */
+	public static int getStudentCountByCourseId(String courseId) {
+
+		try {
+			return AVObject
+					.getQuery(CheckItem.class)
+					.whereEqualTo("courseId", courseId)
+					.whereEqualTo("date", DateUtils.getDateString())
+					.whereEqualTo("index_of_day",
+							DateUtils.getIndexOfDayByNow()).count();
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	/**
+	 * 根据 courseId 获取所有 CheckItem 记录,courseId 和 date 和 index_of_day 唯一确定一条
+	 * CheckItem 记录
+	 * 
+	 * @param courseId
+	 * @return
+	 */
+	public static List<CheckItem> getAllCheckItemByCourseId(String courseId) {
+		try {
+			return AVObject
+					.getQuery(CheckItem.class)
+					.whereEqualTo("courseId", courseId)
+					.whereEqualTo("date", DateUtils.getDateString())
+					.whereEqualTo("index_of_day",
+							DateUtils.getIndexOfDayByNow()).find();
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
