@@ -24,8 +24,10 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class IndexListViewActivity extends Activity {
 	private LinearLayout layoutIndex;
 	private ListView listView;
 	private TextView tv_show;
+	private ImageView iv_back;
 	private ListViewAdapter adapter;
 	private String[] indexStr = { "#", "A", "B", "C", "D", "E", "F", "G", "H",
 			"I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
@@ -59,6 +62,15 @@ public class IndexListViewActivity extends Activity {
 		listView = (ListView) findViewById(R.id.listView);
 		tv_show = (TextView) findViewById(R.id.tv);
 		tv_show.setVisibility(View.GONE);
+
+		iv_back = (ImageView) findViewById(R.id.iv_left);
+		iv_back.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 
 		final int user_type = getIntent().getIntExtra(Setting.USER_TYPE, 3);
 

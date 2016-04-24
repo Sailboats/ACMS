@@ -5,6 +5,7 @@ import java.util.List;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 	private CheckDetailsAdapter mAdapter;
 
 	private TextView tv_summit, tv_cancel;
+	private ImageView iv_back;
 
 	@Override
 	protected int getLayoutId() {
@@ -61,6 +63,8 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 
 		tv_summit = (TextView) findViewById(R.id.tv_summit);
 		tv_cancel = (TextView) findViewById(R.id.tv_cancel);
+
+		iv_back = (ImageView) findViewById(R.id.iv_left);
 	}
 
 	/**
@@ -125,6 +129,14 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 			public void onClick(View arg0) {
 				mAdapter.clearOpt_queen();
 				LogUtils.Log_debug(tag, "清理待操作队列");
+				finish();
+			}
+		});
+
+		iv_back.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
 				finish();
 			}
 		});

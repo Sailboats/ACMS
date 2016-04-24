@@ -24,6 +24,8 @@ import com.caoligai.acms.avobject.StudentToCourse;
 import com.caoligai.acms.utils.DateUtils;
 import com.caoligai.acms.utils.LogUtils;
 import com.caoligai.acms.utils.UserUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import android.app.Application;
 import android.util.Log;
@@ -52,6 +54,22 @@ public class MyApplication extends Application {
 		initLeanCloud();
 
 		createTestData();
+
+		initFresco();
+	}
+
+	/**
+	 * 初始化图片加载构架 Fresco
+	 */
+	private void initFresco() {
+		// Fresco.initialize(this);
+		// 创建默认的ImageLoader配置参数
+		ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+				.createDefault(this);
+
+		// Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(configuration);
+		LogUtils.Log_debug(tag, "ImageLoader 初始化成功");
 	}
 
 	/**
@@ -314,6 +332,7 @@ public class MyApplication extends Application {
 		 * done(AVException e) { if (e == null) { // successfully Log.d(null,
 		 * "创建测试账号成功"); } else { // failed } } });
 		 */
+		LogUtils.Log_debug(tag, "LeanCloud 初始化成功");
 	}
 
 	public UserUtils getmUserUtils() {

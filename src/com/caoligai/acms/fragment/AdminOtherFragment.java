@@ -3,8 +3,15 @@
  */
 package com.caoligai.acms.fragment;
 
+import org.apache.http.client.UserTokenHandler;
+
+import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
 import com.caoligai.acms.activity.LoginActivity;
+import com.caoligai.acms.avobject.MyUser;
+import com.caoligai.acms.utils.ImageUtils;
+import com.caoligai.acms.utils.StringHelper;
+import com.caoligai.acms.widget.CircleImageView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -25,19 +33,29 @@ import android.widget.TextView;
 public class AdminOtherFragment extends Fragment {
 
 	private TextView tv_exit_login;
+	private CircleImageView iv_avatar;
+	private TextView tv_usertype, tv_name;
+
+	private MyUser user;
 
 	public AdminOtherFragment() {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_admin_other, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_admin_other,
+				container, false);
 
 		initVIew(rootView);
 		return rootView;
 	}
 
 	private void initVIew(View rootView) {
+
+		iv_avatar = (CircleImageView) rootView.findViewById(R.id.iv_avatar);
+		tv_usertype = (TextView) rootView.findViewById(R.id.tv_usertype);
+		tv_name = (TextView) rootView.findViewById(R.id.tv_name);
 
 		tv_exit_login = (TextView) rootView.findViewById(R.id.tv_exit_login);
 		tv_exit_login.setOnClickListener(new OnClickListener() {
@@ -49,6 +67,24 @@ public class AdminOtherFragment extends Fragment {
 			}
 		});
 
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		user = (MyUser) ((MyApplication) getActivity().getApplication())
+				.getmUserUtils().getmAVUser();
+
+		if (user != null) {
+
+			tv_usertype.setText(StringHelper.getUserType(user.getUserType()
+					.intValue()));
+
+			tv_name.setText(user.getName());
+
+			ImageUtils.displayImage(user.getAvatarUrl(), (ImageView) iv_avatar);
+		}
 	}
 
 }

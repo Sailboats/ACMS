@@ -23,7 +23,7 @@ public class CheckItemPreviewDao {
 		AVQuery<CheckItemPreview> query = AVObject
 				.getQuery(CheckItemPreview.class);
 		query.whereEqualTo("courseId", courseId);
-		query.addAscendingOrder("createAt");
+		query.addAscendingOrder("createdAt");
 		query.limit(200);
 
 		List<CheckItemPreview> data = null;

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,7 +25,6 @@ import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
 import com.caoligai.acms.Setting;
 import com.caoligai.acms.adapter.SearchStudentAdapter;
-import com.caoligai.acms.avobject.Course;
 import com.caoligai.acms.avobject.Student;
 import com.caoligai.acms.avobject.StudentToCourse;
 import com.caoligai.acms.utils.DialogUtils;
@@ -46,6 +46,7 @@ public class SearchActivity extends BaseActivity {
 	private EditText ed_stu;
 	private TextView tv_course;
 	private ListView lv_list;
+	private ImageView iv_back;
 	private SearchStudentAdapter mAdapter;
 	private List<Student> result = null;
 
@@ -74,6 +75,7 @@ public class SearchActivity extends BaseActivity {
 		tv_course = (TextView) findViewById(R.id.ed_course);
 		lv_list = (ListView) findViewById(R.id.lv_list);
 		btn_check = (Button) findViewById(R.id.btn_search);
+		iv_back = (ImageView) findViewById(R.id.iv_left);
 
 	}
 
@@ -234,6 +236,15 @@ public class SearchActivity extends BaseActivity {
 										.getUserType()));
 			}
 		});
+
+		iv_back.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+
 	}
 
 	Handler mHandler = new Handler() {

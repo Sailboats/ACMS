@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.caoligai.acms.activity;
 
 import java.util.ArrayList;
@@ -66,7 +63,6 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void initData() {
-
 	}
 
 	@Override

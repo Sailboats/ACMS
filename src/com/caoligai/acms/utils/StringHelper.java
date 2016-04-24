@@ -141,4 +141,32 @@ public class StringHelper {
 
 		return str;
 	}
+
+	/**
+	 * 根据用户类型获取用户类型字符串
+	 * 
+	 * @param userType
+	 * @return
+	 */
+	public static String getUserType(int userType) {
+
+		String str = null;
+		switch (userType) {
+		case 0:
+			str = "管理员";
+			break;
+		case 1:
+			str = "教师";
+			break;
+		case 2:
+			str = "学生";
+			break;
+
+		default:
+			break;
+
+		}
+
+		return str;
+	}
 }

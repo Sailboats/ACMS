@@ -55,13 +55,19 @@ public class WelcomeActivity extends BaseActivity {
 			if (app.getmUserUtils().hasRememberUser()) {
 				// 存在当前用户
 				LogUtils.Log_debug(tag, "存在当前用户");
-				startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+				String[] args = app.getmUserUtils().getLocalNameAndPassword();
+				app.getmUserUtils().loginInBackground(WelcomeActivity.this,
+						args[0], args[1]);
+				// startActivity(new Intent(WelcomeActivity.this,
+				// HomeActivity.class));
 			} else {
 				// 不存在当前用户
 				LogUtils.Log_debug(tag, "不存在当前用户");
-				startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+				startActivity(new Intent(WelcomeActivity.this,
+						LoginActivity.class));
+				finish();
 			}
-			finish();
+
 		};
 	};
 }

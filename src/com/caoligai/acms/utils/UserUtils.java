@@ -14,6 +14,7 @@ import com.caoligai.acms.activity.HomeActivity;
 import com.caoligai.acms.activity.LoginActivity;
 import com.caoligai.acms.avobject.MyUser;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -74,23 +75,56 @@ public class UserUtils {
 		final String name = tel, pass = password;
 		mAVUser = new MyUser();
 
-		final ProgressDialog dialog = ProgressDialog.show(context, "", "正在登陆...", true);
+		final ProgressDialog dialog = ProgressDialog.show(context, "",
+				"正在登陆...", true);
 
 		mAVUser.logInInBackground(tel, password, new LogInCallback() {
 			public void done(AVUser user, AVException e) {
 				dialog.dismiss();
 				if (e == null) {
 					// 登录成功
-					LogUtils.Log_debug(tag,
-							"登录成功: " + user.getUsername() + "用户类型： " + ((MyUser) user).getUserType().intValue());
-					saveNameAndPassword(name, pass, ((MyUser) user).getUserType().intValue());
-					context.startActivity(new Intent(context, HomeActivity.class));
+					LogUtils.Log_debug(tag, "登录成功: " + user.getUsername()
+							+ "用户类型： "
+							+ ((MyUser) user).getUserType().intValue());
+					saveNameAndPassword(name, pass, ((MyUser) user)
+							.getUserType().intValue());
+					context.startActivity(new Intent(context,
+							HomeActivity.class));
 					((LoginActivity) context).finish();
 					mAVUser = (MyUser) user;
 				} else {
 					// 登录失败
 					LogUtils.Log_debug(tag, "登录失败");
-					Toast.makeText(context, "登录失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, "登录失败: " + e.getMessage(),
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		}, MyUser.class);
+	}
+
+	public void loginInBackground(final Context context, String tel,
+			String password) {
+		final String name = tel, pass = password;
+		mAVUser = new MyUser();
+
+		mAVUser.logInInBackground(tel, password, new LogInCallback() {
+			public void done(AVUser user, AVException e) {
+				if (e == null) {
+					// 登录成功
+					LogUtils.Log_debug(tag, "登录成功: " + user.getUsername()
+							+ "用户类型： "
+							+ ((MyUser) user).getUserType().intValue());
+					saveNameAndPassword(name, pass, ((MyUser) user)
+							.getUserType().intValue());
+					context.startActivity(new Intent(context,
+							HomeActivity.class));
+					((Activity) context).finish();
+					mAVUser = (MyUser) user;
+				} else {
+					// 登录失败
+					LogUtils.Log_debug(tag, "登录失败");
+					Toast.makeText(context, "登录失败: " + e.getMessage(),
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 		}, MyUser.class);
@@ -147,7 +181,8 @@ public class UserUtils {
 	 * @return
 	 */
 	public int getUserType() {
-		int userType = Integer.parseInt(getPrefUtils().getString(PRE_NAME, PARS[2])[0]);
+		int userType = Integer.parseInt(getPrefUtils().getString(PRE_NAME,
+				PARS[2])[0]);
 		LogUtils.Log_debug(tag, "本地用户类型： " + userType);
 		return userType;
 	}

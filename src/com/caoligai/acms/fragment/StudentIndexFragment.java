@@ -7,6 +7,7 @@ import com.caoligai.acms.R;
 import com.caoligai.acms.avobject.CheckItem;
 import com.caoligai.acms.avobject.Course;
 import com.caoligai.acms.avobject.MyUser;
+import com.caoligai.acms.utils.ImageUtils;
 import com.caoligai.acms.utils.LogUtils;
 import com.caoligai.acms.widget.MonPickerDialog;
 
@@ -24,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ public class StudentIndexFragment extends Fragment {
 
 	private TextView tv_tips, tv_courseName;
 	private Button btn_check;
+	private ImageView iv_course;
 	private MyUser mUser;
 	/**
 	 * 签到成功
@@ -48,8 +51,10 @@ public class StudentIndexFragment extends Fragment {
 	 * 已经签到
 	 */
 	private static final int HAS_CHECKED = 3;
-	
+
 	private boolean isCheck = false;
+
+	private boolean has_loaded_image = false;
 
 	private String tag = getClass().getSimpleName();
 
@@ -58,9 +63,10 @@ public class StudentIndexFragment extends Fragment {
 
 	@Override
 	@Nullable
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-			@Nullable Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_student_index, container, false);
+	public View onCreateView(LayoutInflater inflater,
+			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_student_index,
+				container, false);
 
 		initView(rootView);
 		return rootView;
@@ -70,6 +76,7 @@ public class StudentIndexFragment extends Fragment {
 		tv_tips = (TextView) view.findViewById(R.id.tv_tips);
 		tv_courseName = (TextView) view.findViewById(R.id.tv_course_name);
 		btn_check = (Button) view.findViewById(R.id.btn_check);
+		iv_course = (ImageView) view.findViewById(R.id.iv_course_image);
 
 		// tv_tips.setVisibility(View.GONE);
 		tv_courseName.setVisibility(View.GONE);
@@ -106,7 +113,8 @@ public class StudentIndexFragment extends Fragment {
 
 	private void initData() {
 
-		mUser = (MyUser) ((MyApplication) getActivity().getApplication()).getmUserUtils().getmAVUser();
+		mUser = (MyUser) ((MyApplication) getActivity().getApplication())
+				.getmUserUtils().getmAVUser();
 		LogUtils.Log_debug(tag, "当前用户的学号： " + mUser.getStudentXueHao());
 
 		new Thread(new Runnable() {
@@ -116,11 +124,13 @@ public class StudentIndexFragment extends Fragment {
 
 				while (!isCheck) {
 
-					course = Course.getNowCanCheckCourse(mUser.getStudentXueHao());
+					course = Course.getNowCanCheckCourse(mUser
+							.getStudentXueHao());
 
 					if (course != null) {
 						// 检查是否已经进行签到
-						CheckItem item = CheckItem.hasChecked(course, mUser.getStudentXueHao());
+						CheckItem item = CheckItem.hasChecked(course,
+								mUser.getStudentXueHao());
 
 						if (!item.getIsAbsent().booleanValue()) {
 							// 已经签到过
@@ -162,10 +172,12 @@ public class StudentIndexFragment extends Fragment {
 				btn_check.setOnClickListener(listener);
 
 				tv_courseName.setText(course.getName());
+
 			}
 
 			if (msg.what == CHECK_SUCCESS) {
-				Toast.makeText(StudentIndexFragment.this.getActivity(), "签到成功", Toast.LENGTH_SHORT).show();
+				Toast.makeText(StudentIndexFragment.this.getActivity(), "签到成功",
+						Toast.LENGTH_SHORT).show();
 				btn_check.setText("已签到");
 				btn_check.setClickable(false);
 				btn_check.setOnClickListener(null);
@@ -182,7 +194,8 @@ public class StudentIndexFragment extends Fragment {
 				btn_check.setOnClickListener(null);
 				CheckItem item = (CheckItem) msg.obj;
 				tv_tips.setVisibility(View.VISIBLE);
-				LogUtils.Log_debug(tag, "签到信息为：" + item.getIsLate() + "  " + item.getIsNormal());
+				LogUtils.Log_debug(tag, "签到信息为：" + item.getIsLate() + "  "
+						+ item.getIsNormal());
 				if (item.getIsLate()) {
 					tv_tips.setTextColor(Color.YELLOW);
 					tv_tips.setText("你已迟到，下次要早点来");
@@ -192,6 +205,11 @@ public class StudentIndexFragment extends Fragment {
 					tv_tips.setText("准时签到，请继续保持");
 				}
 
+			}
+
+			if (!has_loaded_image) {
+				ImageUtils.displayImage(course.getImageUrl(), iv_course);
+				has_loaded_image = true;
 			}
 
 		};

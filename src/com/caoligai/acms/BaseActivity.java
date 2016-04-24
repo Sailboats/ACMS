@@ -31,7 +31,6 @@ public abstract class BaseActivity extends FragmentActivity {
 	}
 
 	private void initCreate() {
-
 		this.setContentView(getLayoutId());
 
 		initView();

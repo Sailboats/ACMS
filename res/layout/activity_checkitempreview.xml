@@ -17,8 +17,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_settings_ethernet_black_48dp"
-            android:visibility="invisible" />
+            android:src="@drawable/ic_back"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_center"

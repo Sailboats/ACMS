@@ -1,5 +1,6 @@
 package com.caoligai.acms.avobject;
 
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 
 public class MyUser extends AVUser {
@@ -38,6 +39,15 @@ public class MyUser extends AVUser {
 
 	public void setTeacherId(String teacherId) {
 		put("teacherId", teacherId);
+	}
+
+	// Í·Ïñ
+	public String getAvatarUrl() {
+		AVFile file = getAVFile("avatar");
+		if (file != null) {
+			return file.getUrl();
+		}
+		return null;
 	}
 
 }
