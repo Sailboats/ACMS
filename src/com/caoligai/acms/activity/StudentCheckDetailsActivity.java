@@ -86,6 +86,7 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 
 			@Override
 			public void run() {
+				// 根据 CheckItemPreviewId 查询全部考勤记录
 				result = CheckItem.getAllCheckItemByCheckItemPreviewId(preId);
 				android.os.Message msg = mHandler.obtainMessage();
 				msg.obj = result;

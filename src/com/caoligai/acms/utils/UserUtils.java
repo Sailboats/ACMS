@@ -75,6 +75,7 @@ public class UserUtils {
 		final String name = tel, pass = password;
 		mAVUser = new MyUser();
 
+		// 显示提示框
 		final ProgressDialog dialog = ProgressDialog.show(context, "",
 				"正在登陆...", true);
 
@@ -86,8 +87,10 @@ public class UserUtils {
 					LogUtils.Log_debug(tag, "登录成功: " + user.getUsername()
 							+ "用户类型： "
 							+ ((MyUser) user).getUserType().intValue());
+					// 保存用户信息
 					saveNameAndPassword(name, pass, ((MyUser) user)
 							.getUserType().intValue());
+					// 跳转到程序主页面
 					context.startActivity(new Intent(context,
 							HomeActivity.class));
 					((LoginActivity) context).finish();
@@ -95,6 +98,7 @@ public class UserUtils {
 				} else {
 					// 登录失败
 					LogUtils.Log_debug(tag, "登录失败");
+					// 显示失败信息
 					Toast.makeText(context, "登录失败: " + e.getMessage(),
 							Toast.LENGTH_SHORT).show();
 				}

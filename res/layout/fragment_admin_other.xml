@@ -9,7 +9,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp" >
+        android:background="@color/bg_white"
+        android:gravity="center_vertical"
+        android:padding="20dp" >
 
         <com.caoligai.acms.widget.CircleImageView
             android:id="@+id/iv_avatar"
@@ -17,7 +19,7 @@
             android:layout_height="120dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/iv_null"
             app:border_color="#ffffff"
             app:border_width="2dp" />
@@ -39,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/tv_name"
             android:layout_alignLeft="@+id/tv_name"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="20dp"
             android:text="----"
             android:textColor="@color/font_black"
             android:textSize="24px" />
@@ -60,7 +62,7 @@
         android:padding="15dp"
         android:text="退出登录"
         android:textColor="@color/font_black"
-        android:textSize="30px" />
+        android:textSize="36px" />
 
     <View
         android:layout_width="match_parent"

@@ -246,6 +246,7 @@ public class MyApplication extends Application {
 								check.setStuXueHao(studentToCourse.getXuehao());
 								check.setStuName(stu.getName());
 								check.setCourseId(course.getObjectId());
+								check.setCourseName(course.getName());
 								check.setWeek(i);
 								check.setDayOfWeek(courseDetialTime
 										.getDayOfWeek());

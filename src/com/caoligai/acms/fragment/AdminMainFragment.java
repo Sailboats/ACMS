@@ -130,6 +130,7 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 
 					while (isRefreshing) {
 						try {
+							// 查询最新数据
 							int total_stu = AVObject.getQuery(CheckItem.class)
 									.whereEqualTo("date", date_query).count();// 学生总人次
 
@@ -187,6 +188,7 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 							.getApplication()).getmUserUtils().getmAVUser())
 							.getTeacherId();
 					while (isRefreshing) {
+						// 根据教师id查询当前时刻正在进行考勤的自己开设的课程
 						Course course = Course
 								.getNowCanCheckCourseByTeacherId(teacherId);
 						if (course != null) {
@@ -198,6 +200,8 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 							courseId = course.getObjectId();
 
 							CheckSummary summary = null;
+
+							// 查询考勤信息
 							int total_stu = CheckItem
 									.getStudentCountByCourseId(courseId);
 							// 学生总人次

@@ -197,6 +197,7 @@ public class SearchActivity extends BaseActivity {
 							return;
 
 						try {
+							// 以学号为查询参数查询该学生所选修的课程列表
 							List<StudentToCourse> result = AVObject
 									.getQuery(StudentToCourse.class)
 									.whereEqualTo("student_xuehao", xuehao)
@@ -224,6 +225,11 @@ public class SearchActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
+				if (xuehao == null || xuehao.equals("")
+						|| tv_course.getText().equals("")
+						|| tv_course.getText() == null) {
+					return;
+				}
 				startActivity(new Intent(SearchActivity.this,
 						StudentAbsentCheckActivity.class)
 						.putExtra(Setting.XUEHAO, xuehao)

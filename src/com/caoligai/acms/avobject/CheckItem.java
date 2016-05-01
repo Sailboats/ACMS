@@ -132,6 +132,15 @@ public class CheckItem extends AVObject {
 		put("date", date);
 	}
 
+	// 课程名
+	public String getCourseName() {
+		return getString("courseName");
+	}
+
+	public void setCourseName(String courseName) {
+		put("courseName", courseName);
+	}
+
 	/**
 	 * 学生签到。 新建一条 CheckItem 记录，并在对应的考勤预览项（CheckItemPreview）中增加一个考勤数据（准时、迟到或者缺席）
 	 * 

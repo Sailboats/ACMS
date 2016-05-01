@@ -123,7 +123,8 @@ public class StudentIndexFragment extends Fragment {
 			public void run() {
 
 				while (!isCheck) {
-
+					
+					// 查询当前是否存在需要签到的课程
 					course = Course.getNowCanCheckCourse(mUser
 							.getStudentXueHao());
 

@@ -73,16 +73,18 @@ public class AdminOtherFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
+		// 通过 MyApplication 对象获取当前用户
 		user = (MyUser) ((MyApplication) getActivity().getApplication())
 				.getmUserUtils().getmAVUser();
 
 		if (user != null) {
-
+			// 显示用户类型
 			tv_usertype.setText(StringHelper.getUserType(user.getUserType()
 					.intValue()));
-
+			// 显示用户名
 			tv_name.setText(user.getName());
 
+			// 加载用户头像
 			ImageUtils.displayImage(user.getAvatarUrl(), (ImageView) iv_avatar);
 		}
 	}

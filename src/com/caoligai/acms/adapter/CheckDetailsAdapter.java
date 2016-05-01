@@ -51,6 +51,8 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 			viewHolder.tv_course_index_of_day = (TextView) arg1
 					.findViewById(R.id.tv_course_index_of_day);
 			viewHolder.tv_date = (TextView) arg1.findViewById(R.id.tv_date);
+			viewHolder.tv_courseName = (TextView) arg1
+					.findViewById(R.id.tv_coursename);
 			viewHolder.iv_late = (ImageView) arg1.findViewById(R.id.iv_late);
 			viewHolder.iv_leave = (ImageView) arg1.findViewById(R.id.iv_leave);
 			viewHolder.iv_absent = (ImageView) arg1
@@ -64,6 +66,7 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 
 		final CheckItem item = (CheckItem) getmData().get(arg0);
 
+		viewHolder.tv_courseName.setText(item.getCourseName());
 		viewHolder.tv_name.setText(item.getStuName());
 		viewHolder.tv_xuehao.setText(item.getStuXueHao());
 		viewHolder.tv_week.setText(StringHelper.getWeekString(item.getWeek()
@@ -181,7 +184,7 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 
 	static class ViewHolder {
 		TextView tv_name, tv_xuehao, tv_week, tv_day_of_week,
-				tv_course_index_of_day, tv_date;
+				tv_course_index_of_day, tv_date, tv_courseName;
 		ImageView iv_normal, iv_late, iv_leave, iv_absent;
 	}
 

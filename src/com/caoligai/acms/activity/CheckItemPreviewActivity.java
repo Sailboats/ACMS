@@ -62,6 +62,7 @@ public class CheckItemPreviewActivity extends BaseActivity {
 
 			@Override
 			public void run() {
+				// 根据课程ID查询所有考勤预览项
 				data = CheckItemPreviewDao.getAllItemByCourseId(courseId);
 				Message message = mHandler.obtainMessage();
 				message.obj = data;
