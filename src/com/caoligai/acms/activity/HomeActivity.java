@@ -3,6 +3,8 @@ package com.caoligai.acms.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.autoupdatesdk.BDAutoUpdateSDK;
+import com.baidu.autoupdatesdk.UICheckUpdateCallback;
 import com.caoligai.acms.BaseActivity;
 import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
@@ -63,6 +65,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void initData() {
+		// 检查新版本
+		BDAutoUpdateSDK.uiUpdateAction(HomeActivity.this,
+				new MyUICheckUpdateCallback());
 	}
 
 	@Override
@@ -72,6 +77,14 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 		rl_btn2.setOnClickListener(this);
 		rl_btn3.setOnClickListener(this);
 
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// 检查新版本
+		BDAutoUpdateSDK.uiUpdateAction(getApplicationContext(),
+				new MyUICheckUpdateCallback());
 	}
 
 	@SuppressWarnings("deprecation")
@@ -175,6 +188,15 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 
 		default:
 			break;
+		}
+
+	}
+
+	private class MyUICheckUpdateCallback implements UICheckUpdateCallback {
+
+		@Override
+		public void onCheckComplete() {
+			// dialog.dismiss();
 		}
 
 	}

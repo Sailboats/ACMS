@@ -17,7 +17,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,9 +61,8 @@ public class StudentIndexFragment extends Fragment {
 	}
 
 	@Override
-	@Nullable
-	public View onCreateView(LayoutInflater inflater,
-			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_student_index,
 				container, false);
 
@@ -123,7 +121,7 @@ public class StudentIndexFragment extends Fragment {
 			public void run() {
 
 				while (!isCheck) {
-					
+
 					// 查询当前是否存在需要签到的课程
 					course = Course.getNowCanCheckCourse(mUser
 							.getStudentXueHao());
