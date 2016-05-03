@@ -79,14 +79,6 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		// ¼ì²éÐÂ°æ±¾
-		BDAutoUpdateSDK.uiUpdateAction(getApplicationContext(),
-				new MyUICheckUpdateCallback());
-	}
-
 	@SuppressWarnings("deprecation")
 	private void initViewPager() {
 		mViewPager = (ViewPager) findViewById(R.id.vp_viewpager);

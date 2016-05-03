@@ -9,7 +9,6 @@ import com.caoligai.acms.avobject.Course;
 import com.caoligai.acms.avobject.MyUser;
 import com.caoligai.acms.utils.ImageUtils;
 import com.caoligai.acms.utils.LogUtils;
-import com.caoligai.acms.widget.MonPickerDialog;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
