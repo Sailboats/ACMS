@@ -3,8 +3,23 @@ package com.caoligai.acms.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Color;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
+
 import com.baidu.autoupdatesdk.BDAutoUpdateSDK;
 import com.baidu.autoupdatesdk.UICheckUpdateCallback;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
+import com.baidu.location.Poi;
 import com.caoligai.acms.BaseActivity;
 import com.caoligai.acms.MyApplication;
 import com.caoligai.acms.R;
@@ -13,14 +28,6 @@ import com.caoligai.acms.fragment.AdminCheckFragment;
 import com.caoligai.acms.fragment.AdminMainFragment;
 import com.caoligai.acms.fragment.AdminOtherFragment;
 import com.caoligai.acms.fragment.StudentIndexFragment;
-
-import android.graphics.Color;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
 
 /**
  * @ClassName: HomeActivity
@@ -68,6 +75,12 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
 		// ¼ì²éÐÂ°æ±¾
 		BDAutoUpdateSDK.uiUpdateAction(HomeActivity.this,
 				new MyUICheckUpdateCallback());
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 
 	@Override

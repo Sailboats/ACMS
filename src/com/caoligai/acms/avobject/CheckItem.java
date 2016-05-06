@@ -9,6 +9,8 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.caoligai.acms.entity.CheckResult;
 import com.caoligai.acms.utils.DateUtils;
+import com.caoligai.acms.utils.DistanceUtils;
+import com.caoligai.acms.utils.LogUtils;
 
 /**
  * @ClassName: CheckItem
@@ -19,6 +21,8 @@ import com.caoligai.acms.utils.DateUtils;
  */
 @AVClassName("CheckItem")
 public class CheckItem extends AVObject {
+
+	private static String tag = "CheckItem";
 
 	public CheckItem() {
 	}
@@ -150,13 +154,33 @@ public class CheckItem extends AVObject {
 	 * 
 	 *         修改:见 hasChecked()
 	 */
-	public static String Check(Course course, MyUser mUser) {
+	public static String Check(Course course, MyUser mUser, double longitude,
+			double latitude) {
 
 		CheckItemPreview preView = CheckItemPreview
 				.getCheckItemPreviewByCourse(course);
 		CheckResult checkResult = DateUtils.getCheckResult();
 		CheckItem item;
 		try {
+
+			// 检查是否在考勤范围半径内
+			if (preView.getUseLocationVerification()) {
+				int radius = preView.getRadius().intValue();
+				double target_latitude = Double.parseDouble(preView
+						.getLatitude());
+				double target_longitude = Double.parseDouble(preView
+						.getLongitude());
+
+				if (DistanceUtils.GetDistance(latitude, longitude,
+						target_latitude, target_longitude) <= radius) {
+					// 在考勤范围内
+					LogUtils.Log_debug(tag, "位置校验成功");
+				} else {
+					LogUtils.Log_debug(tag, "位置校验失败，不在考勤范围内");
+					return null;
+				}
+			}
+
 			item = AVObject.getQuery(CheckItem.class)
 					.whereEqualTo("stu_xuehao", mUser.getStudentXueHao())
 					.whereEqualTo("checkItemPreviewId", preView.getObjectId())

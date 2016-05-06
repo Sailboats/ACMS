@@ -117,11 +117,47 @@ public class CheckItemPreview extends AVObject {
 		put(num_absent, count);
 	}
 
+	// 经度
+	public String getLongitude() {
+		return getString("longitude");
+	}
+
+	public void setLongitude(String longitude) {
+		put("longitude", longitude);
+	}
+
+	// 纬度
+	public String getLatitude() {
+		return getString("latitude");
+	}
+
+	public void setLatitude(String latitude) {
+		put("latitude", latitude);
+	}
+
+	// 考勤地理位置范围半径
+	public Number getRadius() {
+		return getNumber("radius");
+	}
+
+	public void setRadius(Number radius) {
+		put("radius", radius);
+	}
+
+	// 是否开启位置校验
+	public Boolean getUseLocationVerification() {
+		return getBoolean("useLocationVerification");
+	}
+
+	public void setUseLocationVerification(Boolean useLocationVerification) {
+		put("useLocationVerification", useLocationVerification);
+	}
+
 	// 自定义逻辑
 
 	public boolean hasData() {
-		return !(getLeaveCount().intValue() + getNormalCount().intValue() + getAbsentCount().intValue()
-				+ getLateCount().intValue() == 0);
+		return !(getLeaveCount().intValue() + getNormalCount().intValue()
+				+ getAbsentCount().intValue() + getLateCount().intValue() == 0);
 	}
 
 	/**
@@ -136,10 +172,12 @@ public class CheckItemPreview extends AVObject {
 
 		CheckResult checkResult = DateUtils.getCheckResult();
 
-		AVQuery<CheckItemPreview> query = AVObject.getQuery(CheckItemPreview.class);
+		AVQuery<CheckItemPreview> query = AVObject
+				.getQuery(CheckItemPreview.class);
 		// 日期和第几节唯一确定一条 CheckItemPreview 记录
 		query.whereEqualTo("date", DateUtils.getDateString());
-		query.whereEqualTo("course_index_of_day", checkResult.getCourse_index_of_day());
+		query.whereEqualTo("course_index_of_day",
+				checkResult.getCourse_index_of_day());
 
 		try {
 			item = query.find().get(0);

@@ -3,8 +3,11 @@
  */
 package com.caoligai.acms;
 
-import java.util.Calendar;
 import java.util.List;
+
+import android.app.ActivityManager;
+import android.app.Application;
+import android.content.Context;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVOSCloud;
@@ -12,8 +15,6 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVRelation;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.SaveCallback;
-import com.avos.avoscloud.SignUpCallback;
 import com.caoligai.acms.avobject.CheckItem;
 import com.caoligai.acms.avobject.CheckItemPreview;
 import com.caoligai.acms.avobject.Course;
@@ -26,9 +27,6 @@ import com.caoligai.acms.utils.LogUtils;
 import com.caoligai.acms.utils.UserUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import android.app.Application;
-import android.util.Log;
 
 /**
  * @ClassName: MyApplication
@@ -50,12 +48,16 @@ public class MyApplication extends Application {
 		super.onCreate();
 
 		mContext = this;
+		if (getCurProcessName(this).equals("com.caoligai.acms")) {
+			initLeanCloud();
 
-		initLeanCloud();
+			createTestData();
 
-		createTestData();
+			initFresco();
+		}
 
-		initFresco();
+		LogUtils.Log_debug(tag, "MyApplication 成功初始化,进程名为："
+				+ getCurProcessName(this));
 	}
 
 	/**
@@ -77,11 +79,11 @@ public class MyApplication extends Application {
 	 */
 	private void createTestData() {
 
-		// createCheckItemPreviewdata("应用密码学基础");
-		// createCheckItemPreviewdata("信息安全");
-		// createCheckItemPreviewdata("java语言程序设计");
-		// createCheckItemPreviewdata("C语言编程入门");
-
+//		createCheckItemPreviewdata("应用密码学基础");
+//		createCheckItemPreviewdata("信息安全");
+//		createCheckItemPreviewdata("java语言程序设计");
+//		createCheckItemPreviewdata("C语言编程入门");
+		//
 		// createAllCheckItemDataByCourseName("应用密码学基础");
 		// createAllCheckItemDataByCourseName("信息安全");
 		// createAllCheckItemDataByCourseName("java语言程序设计");
@@ -341,6 +343,19 @@ public class MyApplication extends Application {
 			mUserUtils = new UserUtils(getApplicationContext());
 		}
 		return mUserUtils;
+	}
+
+	private String getCurProcessName(Context context) {
+		int pid = android.os.Process.myPid();
+		ActivityManager activityManager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		for (ActivityManager.RunningAppProcessInfo appProcess : activityManager
+				.getRunningAppProcesses()) {
+			if (appProcess.pid == pid) {
+				return appProcess.processName;
+			}
+		}
+		return "";
 	}
 
 }
