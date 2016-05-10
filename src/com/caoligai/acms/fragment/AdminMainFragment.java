@@ -60,9 +60,10 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 	private static final int TEACHER_CHECK = 2;
 	private static final int LOCATION_INFO = 3;
 	private static final int UPDATE_LOCATION = 4;
+	private static final int GET_LOCATION_ERROR = 5;
 
 	private boolean isRefreshing = false;
-	private String courseId = null;
+	private String courseId = "";
 
 	// 百度定位相关
 	public LocationClient mLocationClient = null;
@@ -253,7 +254,7 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 				.getmUserUtils().getmAVUser()).getUserType().intValue() == 1) {
 			// 教师
 
-			// rl_location.setVisibility(View.VISIBLE);
+			rl_location.setVisibility(View.GONE);
 			iv_pre.setVisibility(View.GONE);
 			iv_next.setVisibility(View.GONE);
 			tv_tips_no_course.setVisibility(View.VISIBLE);
@@ -278,7 +279,7 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 							msg.obj = course;
 							mHandler.sendMessage(msg);
 
-							rl_location.setVisibility(View.VISIBLE);
+							// rl_location.setVisibility(View.VISIBLE);
 							CheckItemPreview item = CheckItemPreview
 									.getCheckItemPreviewByCourse(course);
 							Message msg2 = mHandler.obtainMessage();
@@ -423,6 +424,7 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 			}
 
 			if (msg.what == LOCATION_INFO) {
+				rl_location.setVisibility(View.VISIBLE);
 				CheckItemPreview item = (CheckItemPreview) msg.obj;
 				if (item.getUseLocationVerification()) {
 					sb_location.setFlage(true);
@@ -436,6 +438,12 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 			if (msg.what == UPDATE_LOCATION) {
 				Toast.makeText(getActivity(), "更新成功", Toast.LENGTH_SHORT)
 						.show();
+			}
+
+			if (msg.what == GET_LOCATION_ERROR) {
+				Toast.makeText(getActivity(),
+						"定位失败，请检查运营商网络或者wifi网络是否正常开启，请确认当前测试手机网络是否通畅",
+						Toast.LENGTH_SHORT).show();
 			}
 
 		};
@@ -456,6 +464,12 @@ public class AdminMainFragment extends Fragment implements OnClickListener {
 			sb.append("time : ");
 			sb.append(location.getTime());
 			sb.append("\nerror code : ");
+			if (162 <= location.getLocType() && location.getLocType() <= 167) {
+				Message msg = mHandler.obtainMessage();
+				msg.what = GET_LOCATION_ERROR;
+				mHandler.sendMessage(msg);
+				return;
+			}
 			sb.append(location.getLocType());
 			sb.append("\nlatitude : ");
 			latitude = location.getLatitude();

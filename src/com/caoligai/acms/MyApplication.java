@@ -79,35 +79,86 @@ public class MyApplication extends Application {
 	 */
 	private void createTestData() {
 
-//		createCheckItemPreviewdata("应用密码学基础");
-//		createCheckItemPreviewdata("信息安全");
-//		createCheckItemPreviewdata("java语言程序设计");
-//		createCheckItemPreviewdata("C语言编程入门");
+		// createCheckItemPreviewdata("应用密码学基础");
+		// createCheckItemPreviewdata("信息安全");
+		// createCheckItemPreviewdata("java语言程序设计");
+		// createCheckItemPreviewdata("C语言编程入门");
 		//
 		// createAllCheckItemDataByCourseName("应用密码学基础");
 		// createAllCheckItemDataByCourseName("信息安全");
 		// createAllCheckItemDataByCourseName("java语言程序设计");
 		// createAllCheckItemDataByCourseName("C语言编程入门");
 
-		// testQuery();
+		// countCheckItem();
 
+		// createAllStudentToCourseData();
 	}
 
-	private void testQuery() {
-		AVQuery<CheckItemPreview> query = AVObject
-				.getQuery(CheckItemPreview.class);
+	/**
+	 * 打印服务器端共有几条签到记录
+	 */
+	private void countCheckItem() {
+		new Thread(new Runnable() {
 
-		query.whereEqualTo("date", "2016-03-28");
-		query.whereEqualTo("course_index_of_day",
-		/* checkResult.getCourse_index_of_day() */4);
-		try {
-			List<CheckItemPreview> result = query.find();
-			LogUtils.Log_debug(tag, "对象id = " + result.get(0).getObjectId());
-			return;
-		} catch (AVException e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void run() {
+				try {
+					int count = AVObject.getQuery(CheckItem.class).count();
 
+					LogUtils.Log_debug(tag, "服务器端共有 " + count + " 条签到记录");
+				} catch (AVException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
+	/**
+	 * 创建 29 个同学选课的记录
+	 */
+	private void createAllStudentToCourseData() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				for (int i = 1; i < 30; i++) {
+
+					StudentToCourse stc1 = new StudentToCourse();
+					stc1.setCourseName("应用密码学基础");
+					stc1.setCourseId("56e0148fefa631005cd5dd85");
+					stc1.setXuehao("2012104094" + (i >= 10 ? i : "0" + i));
+
+					StudentToCourse stc2 = new StudentToCourse();
+					stc2.setCourseName("信息安全");
+					stc2.setCourseId("56e01487128fe10059f455aa");
+					stc2.setXuehao("2012104094" + (i >= 10 ? i : "0" + i));
+
+					StudentToCourse stc3 = new StudentToCourse();
+					stc3.setCourseName("C语言编程入门");
+					stc3.setCourseId("56dee7e7816dfa0052ed297e");
+					stc3.setXuehao("2012104094" + (i >= 10 ? i : "0" + i));
+
+					StudentToCourse stc4 = new StudentToCourse();
+					stc4.setCourseName("java语言程序设计");
+					stc4.setCourseId("56deed8b7db2a20059492547");
+					stc4.setXuehao("2012104094" + (i >= 10 ? i : "0" + i));
+
+					try {
+						stc1.save();
+						stc2.save();
+						stc3.save();
+						stc4.save();
+					} catch (AVException e) {
+						e.printStackTrace();
+					}
+
+					LogUtils.Log_debug(tag, "成功创建第 " + i + " 个同学的选课记录");
+
+				}
+
+			}
+		}).start();
 	}
 
 	/**
