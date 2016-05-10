@@ -16,6 +16,7 @@ import com.caoligai.acms.R;
 import com.caoligai.acms.Setting;
 import com.caoligai.acms.adapter.CheckDetailsAdapter;
 import com.caoligai.acms.avobject.CheckItem;
+import com.caoligai.acms.avobject.CheckItemPreview;
 import com.caoligai.acms.utils.LogUtils;
 
 /**
@@ -113,6 +114,9 @@ public class StudentCheckDetailsActivity extends BaseActivity {
 						for (CheckItem checkItem : queen) {
 							try {
 								checkItem.save();
+								// 更新考勤预览项信息
+								CheckItemPreview
+										.updateCountCauseByCheckItem(checkItem);
 							} catch (AVException e) {
 								e.printStackTrace();
 							}

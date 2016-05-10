@@ -24,6 +24,22 @@ public class CheckItem extends AVObject {
 
 	private static String tag = "CheckItem";
 
+	/**
+	 * 旧状态，用于修改考勤信息时保存修改之前的状态（准时=1、迟到=2、缺席=3、请假=4）以便于更新对应的 CheckItemPreview信息
+	 */
+	private int old_state = 0;
+
+	public int getOld_state() {
+		return old_state;
+	}
+
+	public void setOld_state(int old_state) {
+		
+		if (getOld_state() == 0) {
+			this.old_state = old_state;
+		}
+	}
+
 	public CheckItem() {
 	}
 

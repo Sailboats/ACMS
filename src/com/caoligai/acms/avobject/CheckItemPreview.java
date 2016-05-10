@@ -6,6 +6,7 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.caoligai.acms.entity.CheckResult;
 import com.caoligai.acms.utils.DateUtils;
+import com.caoligai.acms.utils.StateUtils;
 
 /**
  * 考勤记录预览表
@@ -216,6 +217,53 @@ public class CheckItemPreview extends AVObject {
 
 		try {
 			save();
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 减少一个迟到或者准时或者缺席或者请假的数量
+	 * 
+	 * @param checkMode
+	 *            1 = 准时; 2 = 迟到; 3 = 缺席; 4 = 请假;
+	 */
+	public void reduceOneCount(int checkMode) {
+		switch (checkMode) {
+		case 1:
+			setNormalCount(getNormalCount().intValue() - 1);
+			break;
+		case 2:
+			setLateCount(getLateCount().intValue() - 1);
+			break;
+		case 3:
+			setAbsentCount(getAbsentCount().intValue() - 1);
+			break;
+		case 4:
+			setLeaveCount(getLeaveCount().intValue() - 1);
+			break;
+
+		default:
+			break;
+
+		}
+
+		try {
+			save();
+		} catch (AVException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void updateCountCauseByCheckItem(CheckItem item) {
+
+		try {
+			CheckItemPreview pre = AVObject.getQuery(CheckItemPreview.class)
+					.get(item.getCheckItemPreviewId());
+			// 旧状态数量减1
+			pre.reduceOneCount(item.getOld_state());
+			// 新状态数量加1
+			pre.AddOneCount(StateUtils.getState(item));
 		} catch (AVException e) {
 			e.printStackTrace();
 		}

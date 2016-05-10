@@ -6,6 +6,7 @@ import java.util.List;
 import com.caoligai.acms.R;
 import com.caoligai.acms.avobject.CheckItem;
 import com.caoligai.acms.utils.DateUtils;
+import com.caoligai.acms.utils.StateUtils;
 import com.caoligai.acms.utils.StringHelper;
 
 import android.content.Context;
@@ -86,11 +87,18 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 				viewHolder.iv_leave.setAlpha(0.1f);
 				viewHolder.iv_absent.setAlpha(0.1f);
 
+				if (item.getOld_state() == 0) {
+					opt_queen.add(item);
+				}
+
+				// ±£´æ¾É×´Ì¬
+				item.setOld_state(StateUtils.getState(item));
+
 				item.setIsNormal(Boolean.valueOf(true));
 				item.setIsLate(Boolean.valueOf(false));
 				item.setIsLeave(Boolean.valueOf(false));
 				item.setIsAbsent(Boolean.valueOf(false));
-				opt_queen.add(item);
+				// opt_queen.add(item);
 			}
 		});
 		viewHolder.iv_late.setOnClickListener(new OnClickListener() {
@@ -102,11 +110,18 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 				viewHolder.iv_leave.setAlpha(0.1f);
 				viewHolder.iv_absent.setAlpha(0.1f);
 
+				if (item.getOld_state() == 0) {
+					opt_queen.add(item);
+				}
+
+				// ±£´æ¾É×´Ì¬
+				item.setOld_state(StateUtils.getState(item));
+
 				item.setIsNormal(Boolean.valueOf(false));
 				item.setIsLate(Boolean.valueOf(true));
 				item.setIsLeave(Boolean.valueOf(false));
 				item.setIsAbsent(Boolean.valueOf(false));
-				opt_queen.add(item);
+				// opt_queen.add(item);
 			}
 		});
 		viewHolder.iv_leave.setOnClickListener(new OnClickListener() {
@@ -118,11 +133,18 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 				viewHolder.iv_leave.setAlpha(1f);
 				viewHolder.iv_absent.setAlpha(0.1f);
 
+				if (item.getOld_state() == 0) {
+					opt_queen.add(item);
+				}
+
+				// ±£´æ¾É×´Ì¬
+				item.setOld_state(StateUtils.getState(item));
+
 				item.setIsNormal(Boolean.valueOf(false));
 				item.setIsLate(Boolean.valueOf(false));
 				item.setIsLeave(Boolean.valueOf(true));
 				item.setIsAbsent(Boolean.valueOf(false));
-				opt_queen.add(item);
+				// opt_queen.add(item);
 			}
 		});
 		viewHolder.iv_absent.setOnClickListener(new OnClickListener() {
@@ -134,11 +156,18 @@ public class CheckDetailsAdapter extends BaseListViewAdapter {
 				viewHolder.iv_leave.setAlpha(0.1f);
 				viewHolder.iv_absent.setAlpha(1f);
 
+				if (item.getOld_state() == 0) {
+					opt_queen.add(item);
+				}
+
+				// ±£´æ¾É×´Ì¬
+				item.setOld_state(StateUtils.getState(item));
+
 				item.setIsNormal(Boolean.valueOf(false));
 				item.setIsLate(Boolean.valueOf(false));
 				item.setIsLeave(Boolean.valueOf(false));
 				item.setIsAbsent(Boolean.valueOf(true));
-				opt_queen.add(item);
+				// opt_queen.add(item);
 			}
 		});
 

@@ -79,10 +79,10 @@ public class MyApplication extends Application {
 	 */
 	private void createTestData() {
 
-		// createCheckItemPreviewdata("应用密码学基础");
-		// createCheckItemPreviewdata("信息安全");
-		// createCheckItemPreviewdata("java语言程序设计");
-		// createCheckItemPreviewdata("C语言编程入门");
+//		 createCheckItemPreviewdata("应用密码学基础");
+//		 createCheckItemPreviewdata("信息安全");
+//		 createCheckItemPreviewdata("java语言程序设计");
+//		 createCheckItemPreviewdata("C语言编程入门");
 		//
 		// createAllCheckItemDataByCourseName("应用密码学基础");
 		// createAllCheckItemDataByCourseName("信息安全");
@@ -188,7 +188,7 @@ public class MyApplication extends Application {
 
 					// 获取总周数
 					int totalWeeks = (Integer) course.getTotalWeeks();
-					course.setInitDate("2016-02-29");
+					course.setInitDate("2016-05-01");
 					course.save();
 					LogUtils.Log_debug(tag, "初始化上课日期：" + course.getInitDate());
 
@@ -257,7 +257,7 @@ public class MyApplication extends Application {
 
 					// 获取总周数
 					int totalWeeks = (Integer) course.getTotalWeeks();
-					course.setInitDate("2016-02-29");
+					course.setInitDate("2016-05-01");
 					course.save();
 					LogUtils.Log_debug(tag, "初始化上课日期：" + course.getInitDate());
 
